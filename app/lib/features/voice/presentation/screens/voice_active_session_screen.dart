@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
 
 class VoiceActiveSessionScreen extends StatefulWidget {
@@ -135,7 +136,7 @@ class _VoiceActiveSessionScreenState extends State<VoiceActiveSessionScreen> wit
                         ),
                         child: IconButton(
                           icon: const Icon(Icons.settings, color: AppTheme.onSurfaceVariant),
-                          onPressed: () {},
+                          onPressed: () => context.go('/settings'),
                         ),
                       ),
                     ],

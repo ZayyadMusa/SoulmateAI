@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
 
 class DailyReflectionScreen extends StatefulWidget {
@@ -88,7 +89,7 @@ class _DailyReflectionScreenState extends State<DailyReflectionScreen> with Sing
           IconButton(
             padding: const EdgeInsets.only(right: 16),
             icon: const Icon(Icons.settings, color: AppTheme.onSurfaceVariant),
-            onPressed: () {},
+            onPressed: () => context.go('/settings'),
           ),
         ],
       ),

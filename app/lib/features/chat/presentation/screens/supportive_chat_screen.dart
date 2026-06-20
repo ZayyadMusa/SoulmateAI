@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
 
 class SupportiveChatScreen extends StatefulWidget {
@@ -84,7 +85,7 @@ class _SupportiveChatScreenState extends State<SupportiveChatScreen> with Single
           IconButton(
             padding: const EdgeInsets.only(right: 16),
             icon: const Icon(Icons.settings, color: AppTheme.onSurfaceVariant),
-            onPressed: () {},
+            onPressed: () => context.go('/settings'),
           ),
         ],
       ),

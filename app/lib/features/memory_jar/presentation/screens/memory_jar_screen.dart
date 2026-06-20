@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_theme.dart';
 
 class MemoryJarScreen extends StatefulWidget {
@@ -42,7 +43,7 @@ class _MemoryJarScreenState extends State<MemoryJarScreen> with SingleTickerProv
         shadowColor: AppTheme.primary.withOpacity(0.1),
         leading: IconButton(
           icon: const Icon(Icons.settings, color: AppTheme.primary),
-          onPressed: () {},
+          onPressed: () => context.go('/settings'),
         ),
         title: Text(
           'Soulmate AI',
