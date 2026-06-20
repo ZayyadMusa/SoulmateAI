@@ -269,33 +269,6 @@ class _MemoryJarScreenState extends State<MemoryJarScreen> with SingleTickerProv
         ),
       ),
 
-      // Bottom Navigation Bar
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: AppTheme.surfaceContainerLow,
-          boxShadow: [
-            BoxShadow(
-              color: AppTheme.primary.withOpacity(0.04),
-              blurRadius: 24,
-              offset: const Offset(0, -4),
-            ),
-          ],
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(16),
-            topRight: Radius.circular(16),
-          ),
-        ),
-        padding: const EdgeInsets.only(bottom: 24, top: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(Icons.chat_bubble_outline, 'Chat', false),
-            _buildNavItem(Icons.auto_awesome_mosaic_outlined, 'Rituals', false),
-            _buildNavItem(Icons.self_improvement, 'Reflection', false),
-            _buildNavItem(Icons.all_inbox, 'Memory', true),
-          ],
-        ),
-      ),
     );
   }
 
@@ -517,36 +490,4 @@ class _MemoryJarScreenState extends State<MemoryJarScreen> with SingleTickerProv
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label, bool isActive) {
-    return InkWell(
-      onTap: () {},
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: isActive
-            ? BoxDecoration(
-                color: AppTheme.secondaryContainer,
-                borderRadius: BorderRadius.circular(9999),
-              )
-            : null,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: isActive ? AppTheme.onSecondaryContainer : AppTheme.onSurfaceVariant,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                fontSize: 10,
-                color: isActive ? AppTheme.onSecondaryContainer : AppTheme.onSurfaceVariant,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }

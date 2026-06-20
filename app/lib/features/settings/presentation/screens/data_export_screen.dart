@@ -273,29 +273,6 @@ class _DataExportScreenState extends State<DataExportScreen> with SingleTickerPr
         ),
       ),
 
-      // Bottom Navigation Bar
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: AppTheme.surface.withOpacity(0.8),
-          boxShadow: [
-            BoxShadow(
-              color: AppTheme.primary.withOpacity(0.06),
-              blurRadius: 32,
-              offset: const Offset(0, -8),
-            ),
-          ],
-        ),
-        padding: const EdgeInsets.only(bottom: 24, top: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(Icons.auto_awesome_outlined, 'Reflect', false),
-            _buildNavItem(Icons.self_improvement_outlined, 'Rituals', false),
-            _buildNavItem(Icons.favorite_border, 'Soulmate', false),
-            _buildNavItem(Icons.person, 'Settings', true),
-          ],
-        ),
-      ),
     );
   }
 
@@ -439,35 +416,4 @@ class _DataExportScreenState extends State<DataExportScreen> with SingleTickerPr
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label, bool isActive) {
-    return InkWell(
-      onTap: () {},
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-        decoration: isActive
-            ? BoxDecoration(
-                color: AppTheme.primaryFixed,
-                borderRadius: BorderRadius.circular(9999),
-              )
-            : null,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: isActive ? AppTheme.onPrimaryFixedVariant : AppTheme.onSurfaceVariant,
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                fontSize: 10,
-                color: isActive ? AppTheme.onPrimaryFixedVariant : AppTheme.onSurfaceVariant,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }
