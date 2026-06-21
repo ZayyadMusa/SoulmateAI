@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../controllers/chat_controller.dart';
 
-class SupportiveChatScreen extends StatefulWidget {
+class SupportiveChatScreen extends ConsumerStatefulWidget {
   const SupportiveChatScreen({super.key});
 
   @override
-  State<SupportiveChatScreen> createState() => _SupportiveChatScreenState();
+  ConsumerState<SupportiveChatScreen> createState() => _SupportiveChatScreenState();
 }
 
-class _SupportiveChatScreenState extends State<SupportiveChatScreen> with SingleTickerProviderStateMixin {
+class _SupportiveChatScreenState extends ConsumerState<SupportiveChatScreen> with SingleTickerProviderStateMixin {
   final TextEditingController _textController = TextEditingController();
   
+  final ScrollController _scrollController = ScrollController();
+
   late AnimationController _avatarController;
   late Animation<double> _avatarAnimation;
 
@@ -31,8 +35,29 @@ class _SupportiveChatScreenState extends State<SupportiveChatScreen> with Single
   @override
   void dispose() {
     _textController.dispose();
+    _scrollController.dispose();
     _avatarController.dispose();
     super.dispose();
+  }
+
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
+  void _sendMessage() {
+    final text = _textController.text.trim();
+    if (text.isEmpty) return;
+
+    ref.read(chatControllerProvider.notifier).sendMessage(text);
+    _textController.clear();
+    
+    Future.delayed(const Duration(milliseconds: 100), _scrollToBottom);
   }
 
   void _handleSuggestionTap(String text) {
@@ -41,6 +66,8 @@ class _SupportiveChatScreenState extends State<SupportiveChatScreen> with Single
 
   @override
   Widget build(BuildContext context) {
+    final chatState = ref.watch(chatControllerProvider);
+
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
@@ -93,97 +120,118 @@ class _SupportiveChatScreenState extends State<SupportiveChatScreen> with Single
         child: Column(
           children: [
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
-                children: [
-                  // Daily Ritual Nudge
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 40),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppTheme.surfaceContainerLow,
-                      borderRadius: BorderRadius.circular(12), // rounded-xl
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppTheme.primary.withOpacity(0.08),
-                          blurRadius: 32,
-                          offset: const Offset(0, 0),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              const Icon(Icons.water_drop, color: AppTheme.primary, size: 24),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Daily Ritual',
-                                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                                        color: AppTheme.onSurface,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Did you drink water today?',
-                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                        color: AppTheme.onSurfaceVariant,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppTheme.primaryContainer,
-                            foregroundColor: AppTheme.onPrimaryContainer,
-                            elevation: 0,
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(9999),
-                            ),
-                          ),
-                          child: const Text('Check In'),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Chat Flow
-                  _buildAiMessage('Hey there! How was your day? Tell me about the best part of it.'),
-                  const SizedBox(height: 16),
-                  _buildUserMessage('It was good! I finally finished that project. But I\'m feeling a bit drained now.'),
-                  const SizedBox(height: 16),
-                  _buildAiMessage('I\'m so proud of you for finishing that! You deserve a real rest. Have you had enough water today? Maybe a few minutes of quiet would help you recharge.'),
-                  const SizedBox(height: 24),
-
-                  // Typing Suggestion Chips
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        _buildSuggestionChip('Thank you, I will'),
-                        const SizedBox(width: 8),
-                        _buildSuggestionChip('I need more water'),
-                        const SizedBox(width: 8),
-                        _buildSuggestionChip("Let's meditate"),
-                      ],
-                    ),
-                  ),
-                ],
+              child: chatState.when(
+                data: (messages) {
+                  // Scroll to bottom when data changes
+                  WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+                  
+                  return ListView.builder(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+                    itemCount: messages.length + 1, // +1 for the top nudges/suggestions
+                    itemBuilder: (context, index) {
+                      if (index == 0) {
+                        return _buildTopContent();
+                      }
+                      
+                      final msg = messages[index - 1];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: msg.isUser ? _buildUserMessage(msg.text) : _buildAiMessage(msg.text),
+                      );
+                    },
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, st) => Center(child: Text('Error: $e')),
               ),
             ),
+  Widget _buildTopContent() {
+    return Column(
+      children: [
+        // Daily Ritual Nudge
+        Container(
+          margin: const EdgeInsets.only(bottom: 40),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: AppTheme.surfaceContainerLow,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: AppTheme.primary.withOpacity(0.08),
+                blurRadius: 32,
+                offset: const Offset(0, 0),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    const Icon(Icons.water_drop, color: AppTheme.primary, size: 24),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Daily Ritual',
+                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              color: AppTheme.onSurface,
+                            ),
+                          ),
+                          Text(
+                            'Did you drink water today?',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: AppTheme.onSurfaceVariant,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.primaryContainer,
+                  foregroundColor: AppTheme.onPrimaryContainer,
+                  elevation: 0,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(9999),
+                  ),
+                ),
+                child: const Text('Check In'),
+              ),
+            ],
+          ),
+        ),
+
+        // Typing Suggestion Chips
+        Container(
+          margin: const EdgeInsets.only(bottom: 24),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                _buildSuggestionChip('Thank you, I will'),
+                const SizedBox(width: 8),
+                _buildSuggestionChip('I need more water'),
+                const SizedBox(width: 8),
+                _buildSuggestionChip("Let's meditate"),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
             // Floating Input Area
             Container(
@@ -211,6 +259,7 @@ class _SupportiveChatScreenState extends State<SupportiveChatScreen> with Single
                     Expanded(
                       child: TextField(
                         controller: _textController,
+                        onSubmitted: (_) => _sendMessage(),
                         decoration: InputDecoration(
                           hintText: "Tell me what's on your mind...",
                           hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -223,14 +272,16 @@ class _SupportiveChatScreenState extends State<SupportiveChatScreen> with Single
                         ),
                       ),
                     ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        color: AppTheme.primary,
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        icon: const Icon(Icons.send, color: AppTheme.onPrimary, size: 20),
-                        onPressed: () {},
+                      child: InkWell(
+                        onTap: _sendMessage,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: AppTheme.primary,
+                            shape: BoxShape.circle,
+                          ),
+                          padding: const EdgeInsets.all(12),
+                          child: const Icon(Icons.send, color: AppTheme.onPrimary, size: 20),
+                        ),
                       ),
                     ),
                   ],
