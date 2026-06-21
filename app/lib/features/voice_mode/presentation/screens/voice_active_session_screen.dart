@@ -1,16 +1,18 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../controllers/voice_session_controller.dart';
 
-class VoiceActiveSessionScreen extends StatefulWidget {
+class VoiceActiveSessionScreen extends ConsumerStatefulWidget {
   const VoiceActiveSessionScreen({super.key});
 
   @override
-  State<VoiceActiveSessionScreen> createState() => _VoiceActiveSessionScreenState();
+  ConsumerState<VoiceActiveSessionScreen> createState() => _VoiceActiveSessionScreenState();
 }
 
-class _VoiceActiveSessionScreenState extends State<VoiceActiveSessionScreen> with TickerProviderStateMixin {
+class _VoiceActiveSessionScreenState extends ConsumerState<VoiceActiveSessionScreen> with TickerProviderStateMixin {
   late AnimationController _pulseController;
   late AnimationController _morphController;
   late AnimationController _waveController;
@@ -55,6 +57,38 @@ class _VoiceActiveSessionScreenState extends State<VoiceActiveSessionScreen> wit
 
   @override
   Widget build(BuildContext context) {
+    final sessionState = ref.watch(voiceSessionControllerProvider);
+    final isListeningOrSpeaking = sessionState == SessionState.listening || sessionState == SessionState.speaking;
+    final isProcessing = sessionState == SessionState.processing;
+
+    String primaryText = "Tap the microphone to start.";
+    String secondaryText = "Idle";
+    
+    if (sessionState == SessionState.listening) {
+      primaryText = '"I\'m listening. Tell me more about that walk in the park..."';
+      secondaryText = 'AI is listening...';
+    } else if (sessionState == SessionState.processing) {
+      primaryText = '"..."';
+      secondaryText = 'AI is thinking...';
+    } else if (sessionState == SessionState.speaking) {
+      primaryText = '"That sounds lovely. It\'s important to take time for yourself."';
+      secondaryText = 'AI is speaking';
+    }
+
+    if (isListeningOrSpeaking) {
+      if (!_pulseController.isAnimating) _pulseController.repeat(reverse: true);
+      if (!_morphController.isAnimating) _morphController.repeat(reverse: true);
+      if (!_waveController.isAnimating) _waveController.repeat(reverse: true);
+    } else if (isProcessing) {
+      if (!_pulseController.isAnimating) _pulseController.repeat(reverse: true);
+      _morphController.stop();
+      _waveController.stop();
+    } else {
+      _pulseController.stop();
+      _morphController.stop();
+      _waveController.stop();
+    }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -231,7 +265,7 @@ class _VoiceActiveSessionScreenState extends State<VoiceActiveSessionScreen> wit
                         child: Column(
                           children: [
                             Text(
-                              '"I\'m listening. Tell me more about that walk in the park..."',
+                              primaryText,
                               textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                                 fontSize: 24,
@@ -240,7 +274,7 @@ class _VoiceActiveSessionScreenState extends State<VoiceActiveSessionScreen> wit
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              'AI is thinking and listening',
+                              secondaryText,
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: AppTheme.onSurfaceVariant.withOpacity(0.6),
                               ),
@@ -298,13 +332,26 @@ class _VoiceActiveSessionScreenState extends State<VoiceActiveSessionScreen> wit
                               shape: BoxShape.circle,
                             ),
                             child: IconButton(
-                              icon: const Icon(Icons.mic_off, color: AppTheme.onSurfaceVariant, size: 28),
-                              onPressed: () {},
+                              icon: Icon(
+                                sessionState == SessionState.idle ? Icons.mic : Icons.mic_off, 
+                                color: AppTheme.onSurfaceVariant, 
+                                size: 28
+                              ),
+                              onPressed: () {
+                                if (sessionState == SessionState.idle) {
+                                  ref.read(voiceSessionControllerProvider.notifier).startListening();
+                                } else {
+                                  ref.read(voiceSessionControllerProvider.notifier).stop();
+                                }
+                              },
                             ),
                           ),
                           const SizedBox(width: 24),
                           ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                              ref.read(voiceSessionControllerProvider.notifier).stop();
+                              context.pop();
+                            },
                             icon: const Icon(Icons.call_end, size: 24),
                             label: const Text('End Session'),
                             style: ElevatedButton.styleFrom(
