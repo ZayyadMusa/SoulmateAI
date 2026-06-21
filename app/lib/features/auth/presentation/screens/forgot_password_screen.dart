@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../controllers/auth_controller.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
+class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  ConsumerState<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> with TickerProviderStateMixin {
+class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> with TickerProviderStateMixin {
   bool _isLoading = false;
   late AnimationController _blobController;
   late Animation<double> _blobAnimation;
+  final _emailController = TextEditingController();
 
   @override
   void initState() {
@@ -29,19 +32,18 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> with Ticker
   @override
   void dispose() {
     _blobController.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 
-  void _handleSendLink() {
+  Future<void> _handleSendLink() async {
     setState(() {
       _isLoading = true;
     });
     
-    Future.delayed(const Duration(seconds: 2), () {
+    try {
+      await ref.read(authControllerProvider.notifier).resetPassword(_emailController.text);
       if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text('Recovery link sent! Check your inbox.'),
@@ -50,7 +52,23 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> with Ticker
           ),
         );
       }
-    });
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(e.toString()),
+            backgroundColor: AppTheme.errorContainer,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -205,7 +223,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> with Ticker
                             const SizedBox(height: 40),
                             
                             // Form
-                            const _ForgotPasswordInput(),
+                            _ForgotPasswordInput(controller: _emailController),
                             
                             const SizedBox(height: 24),
                             
@@ -351,7 +369,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> with Ticker
 }
 
 class _ForgotPasswordInput extends StatefulWidget {
-  const _ForgotPasswordInput();
+  final TextEditingController? controller;
+
+  const _ForgotPasswordInput({this.controller});
 
   @override
   State<_ForgotPasswordInput> createState() => _ForgotPasswordInputState();
@@ -402,6 +422,7 @@ class _ForgotPasswordInputState extends State<_ForgotPasswordInput> {
             ),
           ),
           child: TextField(
+            controller: widget.controller,
             focusNode: _focusNode,
             keyboardType: TextInputType.emailAddress,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(

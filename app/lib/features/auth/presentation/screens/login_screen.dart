@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_theme.dart';
-import '../../../core/presentation/widgets/recessed_input.dart';
+import '../../../../core/presentation/widgets/recessed_input.dart';
+import '../controllers/auth_controller.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStateMixin {
+class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProviderStateMixin {
   bool _isLoading = false;
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
@@ -27,25 +30,43 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
     );
   }
 
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
   @override
   void dispose() {
     _pulseController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
     setState(() {
       _isLoading = true;
     });
     
-    Future.delayed(const Duration(seconds: 2), () {
+    try {
+      await ref.read(authControllerProvider.notifier).login(
+        _emailController.text, 
+        _passwordController.text
+      );
+      if (mounted) {
+        context.go('/');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString()), backgroundColor: AppTheme.errorContainer, behavior: SnackBarBehavior.floating),
+        );
+      }
+    } finally {
       if (mounted) {
         setState(() {
           _isLoading = false;
         });
-        // TODO: Navigate to Profile Setup or Home
       }
-    });
+    }
   }
 
   @override
@@ -195,17 +216,19 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                           const SizedBox(height: 24),
                           
                           // Form
-                          const RecessedInput(
+                          RecessedInput(
                             label: 'Email',
                             hintText: 'hello@friend.com',
                             prefixIcon: Icons.mail_outline,
+                            controller: _emailController,
                           ),
                           const SizedBox(height: 20),
-                          const RecessedInput(
+                          RecessedInput(
                             label: 'Password',
                             hintText: '••••••••',
                             prefixIcon: Icons.lock_outline,
                             isPassword: true,
+                            controller: _passwordController,
                           ),
                           const SizedBox(height: 12),
                           
@@ -213,7 +236,9 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                context.push('/forgot-password');
+                              },
                               style: TextButton.styleFrom(
                                 foregroundColor: AppTheme.primary,
                                 padding: EdgeInsets.zero,
@@ -354,7 +379,9 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                                 ),
                               ),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  context.push('/signup');
+                                },
                                 style: TextButton.styleFrom(
                                   padding: EdgeInsets.zero,
                                   minimumSize: Size.zero,

@@ -6,6 +6,7 @@ class RecessedInput extends StatelessWidget {
   final String hintText;
   final IconData prefixIcon;
   final bool isPassword;
+  final TextEditingController? controller;
 
   const RecessedInput({
     super.key,
@@ -13,6 +14,7 @@ class RecessedInput extends StatelessWidget {
     required this.hintText,
     required this.prefixIcon,
     this.isPassword = false,
+    this.controller,
   });
 
   @override
@@ -35,6 +37,7 @@ class RecessedInput extends StatelessWidget {
             border: Border.all(color: AppTheme.outlineVariant),
           ),
           child: TextField(
+            controller: controller,
             obscureText: isPassword,
             decoration: InputDecoration(
               hintText: hintText,

@@ -146,6 +146,71 @@ class _SupportiveChatScreenState extends ConsumerState<SupportiveChatScreen> wit
                 error: (e, st) => Center(child: Text('Error: $e')),
               ),
             ),
+            
+            // Floating Input Area
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              color: AppTheme.background,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                decoration: BoxDecoration(
+                  color: AppTheme.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(9999),
+                  border: Border.all(color: AppTheme.surfaceVariant.withOpacity(0.5)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppTheme.primary.withOpacity(0.08),
+                      blurRadius: 32,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.add_circle_outline, color: AppTheme.onSurfaceVariant),
+                      onPressed: () {},
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: _textController,
+                        onSubmitted: (_) => _sendMessage(),
+                        decoration: InputDecoration(
+                          hintText: "Tell me what's on your mind...",
+                          hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: AppTheme.onSurfaceVariant.withOpacity(0.6),
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppTheme.onSurface,
+                        ),
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: _sendMessage,
+                        borderRadius: BorderRadius.circular(9999),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: AppTheme.primary,
+                            shape: BoxShape.circle,
+                          ),
+                          padding: const EdgeInsets.all(12),
+                          child: const Icon(Icons.send, color: AppTheme.onPrimary, size: 20),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildTopContent() {
     return Column(
       children: [
@@ -230,68 +295,6 @@ class _SupportiveChatScreenState extends ConsumerState<SupportiveChatScreen> wit
           ),
         ),
       ],
-    );
-  }
-
-            // Floating Input Area
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              color: AppTheme.background,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                decoration: BoxDecoration(
-                  color: AppTheme.surfaceContainerLow,
-                  borderRadius: BorderRadius.circular(9999),
-                  border: Border.all(color: AppTheme.surfaceVariant.withOpacity(0.5)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppTheme.primary.withOpacity(0.08),
-                      blurRadius: 32,
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.add_circle_outline, color: AppTheme.onSurfaceVariant),
-                      onPressed: () {},
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: _textController,
-                        onSubmitted: (_) => _sendMessage(),
-                        decoration: InputDecoration(
-                          hintText: "Tell me what's on your mind...",
-                          hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppTheme.onSurfaceVariant.withOpacity(0.6),
-                          ),
-                          border: InputBorder.none,
-                        ),
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppTheme.onSurface,
-                        ),
-                      ),
-                    ),
-                      child: InkWell(
-                        onTap: _sendMessage,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: AppTheme.primary,
-                            shape: BoxShape.circle,
-                          ),
-                          padding: const EdgeInsets.all(12),
-                          child: const Icon(Icons.send, color: AppTheme.onPrimary, size: 20),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-
     );
   }
 

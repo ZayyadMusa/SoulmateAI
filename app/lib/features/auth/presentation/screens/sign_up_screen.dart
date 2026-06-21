@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../controllers/auth_controller.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> with SingleTickerProviderStateMixin {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> with SingleTickerProviderStateMixin {
   late AnimationController _blobController;
   late Animation<double> _blobAnimation;
+  bool _isLoading = false;
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -28,7 +35,38 @@ class _SignUpScreenState extends State<SignUpScreen> with SingleTickerProviderSt
   @override
   void dispose() {
     _blobController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _handleSignUp() async {
+    setState(() {
+      _isLoading = true;
+    });
+    
+    try {
+      await ref.read(authControllerProvider.notifier).signUp(
+        _emailController.text, 
+        _passwordController.text
+      );
+      if (mounted) {
+        context.go('/profile-setup');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString()), backgroundColor: AppTheme.errorContainer, behavior: SnackBarBehavior.floating),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -126,24 +164,27 @@ class _SignUpScreenState extends State<SignUpScreen> with SingleTickerProviderSt
                         const SizedBox(height: 40),
                         
                         // Form
-                        const _SignUpInput(
+                        _SignUpInput(
                           label: 'Your Name',
                           hintText: 'How should I call you?',
                           icon: Icons.person_outline,
+                          controller: _nameController,
                         ),
                         const SizedBox(height: 24),
-                        const _SignUpInput(
+                        _SignUpInput(
                           label: 'Email Address',
                           hintText: 'hello@example.com',
                           icon: Icons.mail_outline,
                           keyboardType: TextInputType.emailAddress,
+                          controller: _emailController,
                         ),
                         const SizedBox(height: 24),
-                        const _SignUpInput(
+                        _SignUpInput(
                           label: 'Create Password',
                           hintText: 'Min. 8 characters',
                           icon: Icons.lock_outline,
                           isPassword: true,
+                          controller: _passwordController,
                         ),
                         
                         const SizedBox(height: 16),
@@ -200,22 +241,35 @@ class _SignUpScreenState extends State<SignUpScreen> with SingleTickerProviderSt
                             color: Colors.transparent,
                             child: InkWell(
                               borderRadius: BorderRadius.circular(9999),
-                              onTap: () {},
+                              onTap: _isLoading ? null : _handleSignUp,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  if (_isLoading) ...[
+                                    const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                  ],
                                   Text(
-                                    'Continue',
+                                    _isLoading ? 'Creating Account...' : 'Continue',
                                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                                       color: AppTheme.onPrimary,
                                       fontSize: 16,
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
-                                  const Icon(
-                                    Icons.arrow_forward,
-                                    color: AppTheme.onPrimary,
-                                  ),
+                                  if (!_isLoading) ...[
+                                    const SizedBox(width: 8),
+                                    const Icon(
+                                      Icons.arrow_forward,
+                                      color: AppTheme.onPrimary,
+                                    ),
+                                  ],
                                 ],
                               ),
                             ),
@@ -234,7 +288,9 @@ class _SignUpScreenState extends State<SignUpScreen> with SingleTickerProviderSt
                               ),
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                context.pop();
+                              },
                               style: TextButton.styleFrom(
                                 foregroundColor: AppTheme.primary,
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -308,6 +364,7 @@ class _SignUpInput extends StatefulWidget {
   final IconData icon;
   final bool isPassword;
   final TextInputType keyboardType;
+  final TextEditingController? controller;
 
   const _SignUpInput({
     required this.label,
@@ -315,6 +372,7 @@ class _SignUpInput extends StatefulWidget {
     required this.icon,
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
+    this.controller,
   });
 
   @override
@@ -375,6 +433,7 @@ class _SignUpInputState extends State<_SignUpInput> {
                 : null,
           ),
           child: TextField(
+            controller: widget.controller,
             focusNode: _focusNode,
             obscureText: widget.isPassword,
             keyboardType: widget.keyboardType,
