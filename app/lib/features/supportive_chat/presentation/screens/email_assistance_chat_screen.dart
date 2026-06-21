@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/theme/app_theme.dart';
+import '../../../../core/theme/app_theme.dart';
 
 class EmailAssistanceChatScreen extends StatefulWidget {
   const EmailAssistanceChatScreen({super.key});

@@ -4,12 +4,12 @@ import 'package:go_router/go_router.dart';
 import '../widgets/scaffold_with_nav_bar.dart';
 
 // Import screens
-import '../../features/reflection/presentation/screens/daily_reflection_screen.dart';
+import '../../features/daily_reflection/presentation/screens/daily_reflection_screen.dart';
 import '../../features/memory_jar/presentation/screens/memory_jar_screen.dart';
-import '../../features/voice/presentation/screens/voice_active_session_screen.dart';
-import '../../features/voice/presentation/screens/voice_settings_screen.dart';
-import '../../features/chat/presentation/screens/supportive_chat_screen.dart';
-import '../../features/chat/presentation/screens/email_assistance_chat_screen.dart';
+import '../../features/voice_mode/presentation/screens/voice_active_session_screen.dart';
+import '../../features/voice_mode/presentation/screens/voice_settings_screen.dart';
+import '../../features/supportive_chat/presentation/screens/supportive_chat_screen.dart';
+import '../../features/supportive_chat/presentation/screens/email_assistance_chat_screen.dart';
 import '../../features/settings/presentation/screens/data_export_screen.dart';
 import '../../features/settings/presentation/screens/encryption_keys_screen.dart';
 import '../../features/subscription/presentation/screens/premium_subscription_screen.dart';

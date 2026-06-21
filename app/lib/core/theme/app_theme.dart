@@ -13,6 +13,7 @@ class AppTheme {
   static const Color onSecondaryFixedVariant = Color(0xFF643F00);
   
   static const Color tertiary = Color(0xFF3A6A00);
+  static const Color onTertiary = Color(0xFFFFFFFF);
   static const Color tertiaryContainer = Color(0xFF61AC00);
   static const Color onTertiaryContainer = Color(0xFF1C3900);
   
@@ -24,11 +25,26 @@ class AppTheme {
   static const Color surfaceContainerLow = Color(0xFFF2F4F7);
   static const Color surfaceContainer = Color(0xFFECEEF1);
   static const Color surfaceContainerHigh = Color(0xFFE6E8EB);
+  static const Color surfaceContainerHighest = Color(0xFFE3E5E8);
   static const Color surfaceVariant = Color(0xFFE0E3E6);
+  static const Color background = Color(0xFFF7F9FC);
   static const Color outline = Color(0xFF727782);
+  static const Color outlineVariant = Color(0xFFC2C7CE);
   
   static const Color onSurface = Color(0xFF191C1E);
   static const Color onSurfaceVariant = Color(0xFF414751);
+  
+  static const Color onPrimary = Color(0xFFFFFFFF);
+  static const Color primaryFixed = Color(0xFFD3E4FF);
+  static const Color primaryFixedDim = Color(0xFFB4C5FF);
+  static const Color onPrimaryFixedVariant = Color(0xFF004787);
+  
+  static const Color secondaryFixed = Color(0xFFFFDDB1);
+  static const Color onSecondaryFixed = Color(0xFF2F1500);
+  static const Color tertiaryFixed = Color(0xFFB5F377);
+  static const Color onTertiaryFixedVariant = Color(0xFF325300);
+  
+  static const Color onErrorContainer = Color(0xFF410002);
 
   static ThemeData get lightTheme {
     final baseTextTheme = Typography.material2021().black;
