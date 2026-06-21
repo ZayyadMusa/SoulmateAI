@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../daily_reflection/presentation/controllers/reflection_controller.dart';
 
-class MemoryJarScreen extends StatefulWidget {
+class MemoryJarScreen extends ConsumerStatefulWidget {
   const MemoryJarScreen({super.key});
 
   @override
-  State<MemoryJarScreen> createState() => _MemoryJarScreenState();
+  ConsumerState<MemoryJarScreen> createState() => _MemoryJarScreenState();
 }
 
-class _MemoryJarScreenState extends State<MemoryJarScreen> with SingleTickerProviderStateMixin {
+class _MemoryJarScreenState extends ConsumerState<MemoryJarScreen> with SingleTickerProviderStateMixin {
   late AnimationController _blobController;
   late Animation<double> _blobAnimation;
 
@@ -34,6 +37,8 @@ class _MemoryJarScreenState extends State<MemoryJarScreen> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
+    final reflectionsState = ref.watch(reflectionControllerProvider);
+
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
@@ -143,20 +148,32 @@ class _MemoryJarScreenState extends State<MemoryJarScreen> with SingleTickerProv
               ],
             ),
             const SizedBox(height: 16),
-            _buildMemoryCard(
-              tag: 'Morning Reflection',
-              tagColor: AppTheme.primaryContainer,
-              title: 'Morning coffee thoughts',
-              description: 'We talked about the smell of rain and finding peace in quiet mornings.',
-              date: 'May 12, 2024',
-            ),
             const SizedBox(height: 16),
-            _buildMemoryCard(
-              tag: 'Goal Setting',
-              tagColor: AppTheme.secondaryContainer,
-              title: 'Weekend goals',
-              description: "You committed to reading 50 pages. I'm so proud of your consistency.",
-              date: 'May 10, 2024',
+            reflectionsState.when(
+              data: (reflections) {
+                if (reflections.isEmpty) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(32.0),
+                      child: Text('No memories yet. Add a reflection to start filling your jar!'),
+                    ),
+                  );
+                }
+                return Column(
+                  children: reflections.map((ref) => Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: _buildMemoryCard(
+                      tag: 'Daily Reflection',
+                      tagColor: AppTheme.primaryContainer,
+                      title: ref.mood,
+                      description: ref.content,
+                      date: DateFormat.yMMMd().format(ref.date),
+                    ),
+                  )).toList(),
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (e, st) => Center(child: Text('Error loading memories: $e')),
             ),
 
             const SizedBox(height: 40),

@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../controllers/reflection_controller.dart';
 
-class DailyReflectionScreen extends StatefulWidget {
+class DailyReflectionScreen extends ConsumerStatefulWidget {
   const DailyReflectionScreen({super.key});
 
   @override
-  State<DailyReflectionScreen> createState() => _DailyReflectionScreenState();
+  ConsumerState<DailyReflectionScreen> createState() => _DailyReflectionScreenState();
 }
 
-class _DailyReflectionScreenState extends State<DailyReflectionScreen> with SingleTickerProviderStateMixin {
+class _DailyReflectionScreenState extends ConsumerState<DailyReflectionScreen> with SingleTickerProviderStateMixin {
   late AnimationController _heartController;
   late Animation<double> _heartScaleAnimation;
   late Animation<double> _heartBorderAnimation;
+  final TextEditingController _thoughtController = TextEditingController();
 
   @override
   void initState() {
@@ -34,7 +37,25 @@ class _DailyReflectionScreenState extends State<DailyReflectionScreen> with Sing
   @override
   void dispose() {
     _heartController.dispose();
+    _thoughtController.dispose();
     super.dispose();
+  }
+
+  void _saveReflection() {
+    final text = _thoughtController.text.trim();
+    if (text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a thought to remember.')),
+      );
+      return;
+    }
+
+    ref.read(reflectionControllerProvider.notifier).addReflection('Serene', text);
+    
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Reflection saved successfully!')),
+    );
+    _thoughtController.clear();
   }
 
   @override
@@ -340,6 +361,7 @@ class _DailyReflectionScreenState extends State<DailyReflectionScreen> with Sing
                         alignment: Alignment.bottomRight,
                         children: [
                           TextField(
+                            controller: _thoughtController,
                             maxLines: 3,
                             decoration: InputDecoration(
                               hintText: 'Type your thought here...',
@@ -357,14 +379,17 @@ class _DailyReflectionScreenState extends State<DailyReflectionScreen> with Sing
                           ),
                           Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: Container(
-                              width: 40,
-                              height: 40,
-                              decoration: const BoxDecoration(
-                                color: AppTheme.primary,
-                                shape: BoxShape.circle,
+                            child: InkWell(
+                              onTap: _saveReflection,
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: const BoxDecoration(
+                                  color: AppTheme.primary,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.arrow_forward, color: Colors.white, size: 20),
                               ),
-                              child: const Icon(Icons.arrow_forward, color: Colors.white, size: 20),
                             ),
                           ),
                         ],
@@ -390,7 +415,7 @@ class _DailyReflectionScreenState extends State<DailyReflectionScreen> with Sing
                   child: Column(
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _saveReflection,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.primary,
                           foregroundColor: AppTheme.onPrimary,
