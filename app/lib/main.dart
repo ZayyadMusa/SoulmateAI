@@ -1,3 +1,4 @@
+import 'dart:ui' as dart_ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -39,18 +40,75 @@ class HolisticLifeCompanionApp extends HookWidget {
       title: 'Holistic Life Companion',
       theme: AppTheme.lightTheme,
       home: Scaffold(
-        body: screens[currentIndex.value],
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: currentIndex.value,
-          onDestinationSelected: (index) => currentIndex.value = index,
-          destinations: const [
-            NavigationDestination(icon: Icon(Icons.wb_sunny_outlined), label: 'Reflection'),
-            NavigationDestination(icon: Icon(Icons.inventory_2_outlined), label: 'Memory Jar'),
-            NavigationDestination(icon: Icon(Icons.record_voice_over_outlined), label: 'Voice'),
-            NavigationDestination(icon: Icon(Icons.chat_bubble_outline), label: 'Chat'),
-            NavigationDestination(icon: Icon(Icons.nights_stay_outlined), label: 'Nocturnal'),
+      body: Stack(
+          children: [
+            screens[currentIndex.value],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                child: BackdropFilter(
+                  filter: dart_ui.ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+                  child: Container(
+                    padding: const EdgeInsets.only(bottom: 24, top: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF075FAB).withOpacity(0.04),
+                          blurRadius: 24,
+                          offset: const Offset(0, -4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildNavItem(context, Icons.auto_stories, 'Reflection', 0, currentIndex),
+                        _buildNavItem(context, Icons.inventory_2_outlined, 'Memory Jar', 1, currentIndex),
+                        _buildNavItem(context, Icons.record_voice_over_outlined, 'Voice', 2, currentIndex),
+                        _buildNavItem(context, Icons.chat_bubble_outline, 'Chat', 3, currentIndex),
+                        _buildNavItem(context, Icons.nights_stay_outlined, 'Nocturnal', 4, currentIndex),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem(BuildContext context, IconData icon, String label, int index, ValueNotifier<int> currentIndex) {
+    final isSelected = currentIndex.value == index;
+    return GestureDetector(
+      onTap: () => currentIndex.value = index,
+      behavior: HitTestBehavior.opaque,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            decoration: BoxDecoration(
+              color: isSelected ? AppTheme.primaryContainer : Colors.transparent,
+              borderRadius: BorderRadius.circular(999),
+            ),
+            child: Icon(
+              icon,
+              color: isSelected ? AppTheme.onPrimaryContainer : AppTheme.onSurfaceVariant,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              fontSize: 10,
+              color: isSelected ? AppTheme.onSurface : AppTheme.onSurfaceVariant,
+            ),
+          ),
+        ],
       ),
     );
   }
