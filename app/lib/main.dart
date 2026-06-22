@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'core/theme/app_theme.dart';
+import 'core/local_storage/local_storage_service.dart';
 
-void main() {
-  runApp(const MainApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalStorageService.init();
+  
+  runApp(
+    const ProviderScope(
+      child: HolisticLifeCompanionApp(),
+    ),
+  );
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class HolisticLifeCompanionApp extends StatelessWidget {
+  const HolisticLifeCompanionApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
+    return MaterialApp(
+      title: 'Holistic Life Companion',
+      theme: AppTheme.lightTheme,
+      home: const Scaffold(
         body: Center(
-          child: Text('Hello World!'),
+          child: Text('Holistic Life Companion Initialized'),
         ),
       ),
     );
