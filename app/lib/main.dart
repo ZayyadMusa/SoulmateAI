@@ -6,6 +6,7 @@ import 'core/local_storage/local_storage_service.dart';
 import 'features/daily_reflection/presentation/screens/daily_reflection_screen.dart';
 import 'features/memory_jar/presentation/screens/memory_jar_screen.dart';
 import 'features/voice_mode/presentation/screens/active_session_screen.dart';
+import 'features/nocturnal_mode/presentation/screens/nocturnal_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,7 @@ class HolisticLifeCompanionApp extends HookWidget {
       const DailyReflectionScreen(),
       const MemoryJarScreen(),
       const ActiveSessionScreen(),
+      const NocturnalScreen(),
     ];
 
     return MaterialApp(
@@ -43,6 +45,7 @@ class HolisticLifeCompanionApp extends HookWidget {
             NavigationDestination(icon: Icon(Icons.wb_sunny_outlined), label: 'Reflection'),
             NavigationDestination(icon: Icon(Icons.inventory_2_outlined), label: 'Memory Jar'),
             NavigationDestination(icon: Icon(Icons.record_voice_over_outlined), label: 'Voice'),
+            NavigationDestination(icon: Icon(Icons.nights_stay_outlined), label: 'Nocturnal'),
           ],
         ),
       ),
