@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Daily Reflection | Soulmate AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "primary": "#075fab",
+                    "on-tertiary-container": "#1c3900",
+                    "primary-container": "#5d9cec",
+                    "on-primary-fixed": "#001c39",
+                    "on-primary": "#ffffff",
+                    "inverse-surface": "#2d3133",
+                    "primary-fixed": "#d4e3ff",
+                    "primary-fixed-dim": "#a4c9ff",
+                    "tertiary-fixed": "#a1fa49",
+                    "surface-variant": "#e0e3e6",
+                    "tertiary": "#3a6a00",
+                    "surface-tint": "#075fab",
+                    "on-surface": "#191c1e",
+                    "tertiary-container": "#61ac00",
+                    "on-secondary": "#ffffff",
+                    "on-surface-variant": "#414751",
+                    "secondary-container": "#feb246",
+                    "secondary": "#845400",
+                    "secondary-fixed-dim": "#ffb95a",
+                    "on-background": "#191c1e",
+                    "surface": "#f7f9fc",
+                    "on-primary-container": "#003260",
+                    "on-secondary-fixed-variant": "#643f00",
+                    "surface-container-high": "#e6e8eb",
+                    "on-secondary-container": "#6f4600",
+                    "outline": "#727782",
+                    "surface-container-low": "#f2f4f7",
+                    "on-primary-fixed-variant": "#004884",
+                    "secondary-fixed": "#ffddb6",
+                    "surface-container": "#eceef1",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#0e2000",
+                    "on-secondary-fixed": "#2a1800",
+                    "surface-container-highest": "#e0e3e6",
+                    "surface-dim": "#d8dadd",
+                    "error-container": "#ffdad6",
+                    "background": "#f7f9fc",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#87dc2c",
+                    "surface-bright": "#f7f9fc",
+                    "inverse-on-surface": "#eff1f4",
+                    "inverse-primary": "#a4c9ff",
+                    "on-tertiary-fixed-variant": "#2a5000",
+                    "outline-variant": "#c1c6d3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "container-margin": "24px",
+                    "gutter": "16px",
+                    "section-gap": "40px"
+            },
+            "fontFamily": {
+                    "body-md": ["Be Vietnam Pro"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Be Vietnam Pro"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f7f9fc;
+            color: #191c1e;
+            -webkit-font-smoothing: antialiased;
+        }
+        .companion-glow {
+            filter: blur(40px);
+            opacity: 0.15;
+            animation: pulse-glow 8s infinite alternate ease-in-out;
+        }
+        @keyframes pulse-glow {
+            0% { transform: scale(1); opacity: 0.15; }
+            100% { transform: scale(1.2); opacity: 0.25; }
+        }
+        .morphing-heart {
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation: morph 6s infinite alternate ease-in-out;
+        }
+        @keyframes morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            100% { border-radius: 40% 60% 70% 30% / 40% 70% 30% 60%; }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface mb-24">
+<!-- Top App Bar -->
+<header class="w-full top-0 sticky z-40 bg-surface/80 backdrop-blur-md shadow-sm">
+<div class="flex items-center justify-between px-container-margin py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-gradient-to-tr from-primary to-primary-container flex items-center justify-center overflow-hidden">
+<div class="w-6 h-6 bg-white/20 blur-sm absolute rounded-full"></div>
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">spark</span>
+</div>
+<span class="font-headline-md text-headline-md text-primary font-bold">Soulmate AI</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<main class="max-w-[1120px] mx-auto px-container-margin pt-8 pb-12">
+<!-- Floating Background Elements -->
+<div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+<div class="companion-glow absolute top-1/4 -left-20 w-96 h-96 bg-primary rounded-full"></div>
+<div class="companion-glow absolute bottom-1/4 -right-20 w-80 h-80 bg-secondary-container rounded-full" style="animation-delay: -2s;"></div>
+</div>
+<!-- Hero: Mood Reflection -->
+<section class="flex flex-col items-center text-center mb-section-gap">
+<div class="relative w-48 h-48 mb-6 flex items-center justify-center">
+<div class="morphing-heart absolute inset-0 bg-gradient-to-br from-primary-container to-secondary-container shadow-2xl opacity-80"></div>
+<div class="relative z-10 flex flex-col items-center">
+<span class="material-symbols-outlined text-6xl text-white mb-2" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<p class="font-label-md text-label-md text-white/90">Feeling Serene</p>
+</div>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mb-2">Today felt balanced and calm.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mx-auto">You navigated today with a sense of quiet confidence. Let's look back at the light you brought into the world.</p>
+</section>
+<!-- Bento Grid Wins -->
+<section class="mb-section-gap">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+                Daily Wins
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Win Card 1 -->
+<div class="glass-card p-6 rounded-3xl shadow-[0_32px_64px_rgba(7,95,171,0.04)] flex flex-col gap-4 group transition-all duration-300 hover:-translate-y-1">
+<div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface mb-1">Morning Habit</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Read 15 pages of your book before checking your phone. A peaceful start.</p>
+</div>
+</div>
+<!-- Win Card 2 (Highlight) -->
+<div class="glass-card p-6 rounded-3xl md:col-span-2 shadow-[0_32px_64px_rgba(7,95,171,0.04)] flex flex-col md:flex-row gap-6 items-center transition-all duration-300 hover:-translate-y-1">
+<div class="w-full md:w-48 h-32 rounded-2xl overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A lush green forest scene with dappled sunlight filtering through the canopy onto a soft mossy ground. The atmosphere is tranquil and restorative, perfectly capturing the essence of a grounding nature walk with soft focus and ethereal lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoYs1nr9E-fmJxBgPdq1xawnRIvhhOtUHoH5uMXQtOAKcXEwp4XrOMuxM0ixdLTxm-Wm8MKMqQQEVjqy13wfLwQbTr52lZBbM54wmCoiGAXYO7FFFue6iRAjJ08vyamXc9yJAgqET5U6QD9tkFMqObNowxfDC9fpvdhGpM32v_6zClhcs2MSBEPGdbDC7B7Sc3q8BSz7LlKDOm76NnmdaVwhZ7Tko8E6rMRV23pKYv2k-PvwtTTu25606LqAOIKJAWi3XCmT1IAlE"/>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="px-3 py-1 bg-secondary-container/20 text-on-secondary-fixed-variant rounded-full text-label-sm font-label-sm">Major Milestone</span>
+</div>
+<h3 class="font-label-md text-label-md text-on-surface mb-1">Outdoor Connection</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">You took a 45-minute walk in the park. Your heart rate stayed in a healthy zone, and you noted feeling 'grounded' afterwards.</p>
+</div>
+</div>
+<!-- Win Card 3 -->
+<div class="glass-card p-6 rounded-3xl shadow-[0_32px_64px_rgba(7,95,171,0.04)] flex flex-col gap-4 group transition-all duration-300 hover:-translate-y-1">
+<div class="w-12 h-12 rounded-2xl bg-tertiary-container/10 flex items-center justify-center text-tertiary group-hover:bg-tertiary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">groups</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface mb-1">Social Energy</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Shared a meaningful lunch with Sarah. Your social battery was charged by the deep conversation.</p>
+</div>
+</div>
+<!-- Win Card 4 -->
+<div class="glass-card p-6 rounded-3xl shadow-[0_32px_64px_rgba(7,95,171,0.04)] flex flex-col gap-4 group transition-all duration-300 hover:-translate-y-1">
+<div class="w-12 h-12 rounded-2xl bg-secondary-container/10 flex items-center justify-center text-secondary group-hover:bg-secondary-container group-hover:text-on-secondary-container transition-colors">
+<span class="material-symbols-outlined">self_improvement</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface mb-1">Mindful Choice</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">You chose herbal tea over a third coffee. Your future self thanks you for the better sleep tonight.</p>
+</div>
+</div>
+<!-- Win Card 5 -->
+<div class="glass-card p-6 rounded-3xl shadow-[0_32px_64px_rgba(7,95,171,0.04)] flex flex-col gap-4 group transition-all duration-300 hover:-translate-y-1">
+<div class="w-12 h-12 rounded-2xl bg-error-container/10 flex items-center justify-center text-error group-hover:bg-error group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">done_all</span>
+</div>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface mb-1">Task Management</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Completed the difficult report you've been putting off for three days. Relief achieved.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Prompt Section -->
+<section class="max-w-2xl mx-auto mb-section-gap">
+<div class="glass-card p-8 rounded-[40px] shadow-[0_32px_64px_rgba(7,95,171,0.08)] relative overflow-hidden">
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-12 bg-primary-container rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<p class="font-label-md text-label-md text-primary uppercase tracking-widest">Soulmate's Whisper</p>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-8">What's one thing you want to remember for tomorrow?</h3>
+<div class="relative">
+<textarea class="w-full bg-surface-container-low border-none rounded-2xl p-4 focus:ring-2 focus:ring-primary/20 text-body-md placeholder:text-outline transition-all resize-none" placeholder="Type your thought here..." rows="3"></textarea>
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="flex flex-wrap gap-2 mt-4">
+<span class="px-4 py-2 bg-surface-container-high rounded-full text-label-sm font-label-sm cursor-pointer hover:bg-primary-container/20 transition-colors">"I am capable"</span>
+<span class="px-4 py-2 bg-surface-container-high rounded-full text-label-sm font-label-sm cursor-pointer hover:bg-primary-container/20 transition-colors">"Rest is productive"</span>
+<span class="px-4 py-2 bg-surface-container-high rounded-full text-label-sm font-label-sm cursor-pointer hover:bg-primary-container/20 transition-colors">"Progress over perfection"</span>
+</div>
+</div>
+</section>
+<!-- Final Gratitude Callout -->
+<div class="text-center">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-full font-label-md text-label-md shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200 inline-flex items-center gap-2">
+                Save Reflection
+                <span class="material-symbols-outlined">check_circle</span>
+</button>
+<p class="mt-4 font-label-sm text-label-sm text-on-surface-variant">Day 42 of your journey. You're doing great.</p>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-2 bg-surface-container-lowest shadow-[0_-4px_24px_rgba(7,95,171,0.04)] z-50 rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-high transition-colors active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-label-sm text-[10px] mt-1">Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-high transition-colors active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">auto_awesome_motion</span>
+<span class="font-label-sm text-[10px] mt-1">Rituals</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+<span class="font-label-sm text-[10px] mt-1">Reflection</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-high transition-colors active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-label-sm text-[10px] mt-1">Calendar</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for the textarea
+        const textarea = document.querySelector('textarea');
+        textarea.addEventListener('focus', () => {
+            textarea.parentElement.parentElement.classList.add('ring-4', 'ring-primary/5');
+        });
+        textarea.addEventListener('blur', () => {
+            textarea.parentElement.parentElement.classList.remove('ring-4', 'ring-primary/5');
+        });
+
+        // Simple button click effect
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('click', (e) => {
+                // Potential for adding ripple or small haptic simulation
+            });
+        });
+
+        // Morphing shape color shift simulation
+        const heart = document.querySelector('.morphing-heart');
+        setInterval(() => {
+            const hues = [210, 230, 250, 190];
+            const randomHue = hues[Math.floor(Math.random() * hues.length)];
+            heart.style.filter = `hue-rotate(${Math.random() * 20}deg)`;
+        }, 4000);
+    </script>
+</body></html>

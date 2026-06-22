@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Voice Settings - Soulmate AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-container-low": "#f2f4f7",
+                "primary-fixed": "#d4e3ff",
+                "on-tertiary-fixed": "#0e2000",
+                "secondary": "#845400",
+                "on-surface": "#191c1e",
+                "tertiary-fixed-dim": "#87dc2c",
+                "on-error-container": "#93000a",
+                "inverse-on-surface": "#eff1f4",
+                "error": "#ba1a1a",
+                "surface-container-high": "#e6e8eb",
+                "surface-container": "#eceef1",
+                "surface": "#f7f9fc",
+                "on-secondary-fixed": "#2a1800",
+                "tertiary-container": "#61ac00",
+                "tertiary": "#3a6a00",
+                "on-tertiary": "#ffffff",
+                "background": "#f7f9fc",
+                "on-primary": "#ffffff",
+                "on-background": "#191c1e",
+                "secondary-fixed-dim": "#ffb95a",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary-fixed-variant": "#2a5000",
+                "primary-fixed-dim": "#a4c9ff",
+                "on-primary-fixed-variant": "#004884",
+                "outline-variant": "#c1c6d3",
+                "inverse-primary": "#a4c9ff",
+                "surface-dim": "#d8dadd",
+                "surface-bright": "#f7f9fc",
+                "on-surface-variant": "#414751",
+                "on-secondary-container": "#6f4600",
+                "secondary-fixed": "#ffddb6",
+                "outline": "#727782",
+                "error-container": "#ffdad6",
+                "primary-container": "#5d9cec",
+                "on-secondary-fixed-variant": "#643f00",
+                "on-primary-container": "#003260",
+                "on-tertiary-container": "#1c3900",
+                "on-error": "#ffffff",
+                "tertiary-fixed": "#a1fa49",
+                "secondary-container": "#feb246",
+                "on-primary-fixed": "#001c39",
+                "inverse-surface": "#2d3133",
+                "surface-container-highest": "#e0e3e6",
+                "surface-variant": "#e0e3e6",
+                "primary": "#075fab",
+                "surface-tint": "#075fab",
+                "on-secondary": "#ffffff"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "section-gap": "40px",
+                "gutter": "16px",
+                "container-margin": "24px",
+                "unit": "8px"
+        },
+        "fontFamily": {
+                "label-sm": ["Plus Jakarta Sans"],
+                "label-md": ["Plus Jakarta Sans"],
+                "headline-lg-mobile": ["Plus Jakarta Sans"],
+                "headline-lg": ["Plus Jakarta Sans"],
+                "headline-md": ["Plus Jakarta Sans"],
+                "body-md": ["Be Vietnam Pro"],
+                "body-lg": ["Be Vietnam Pro"]
+        },
+        "fontSize": {
+                "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                "headline-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "headline-md": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+        }
+      },
+    },
+  }
+</script>
+<style>
+        body {
+            background-color: #f7f9fc;
+            color: #191c1e;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-card {
+            background: #ffffff;
+            border: 1px solid #e0e3e6;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .orb-preview {
+            background: radial-gradient(circle at 30% 30%, var(--orb-color, #075fab), transparent 70%);
+            filter: blur(8px);
+            animation: pulse 4s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.15); opacity: 0.9; }
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            background: #e0e3e6;
+            border-radius: 2px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #075fab;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(7, 95, 171, 0.2);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface shadow-sm h-16 flex items-center justify-between px-gutter max-w-7xl mx-auto">
+<button class="hover:bg-surface-container-high p-2 rounded-full transition-colors text-primary">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Voice Settings</h1>
+<button class="hover:bg-surface-container-high p-2 rounded-full transition-colors text-primary">
+<span class="material-symbols-outlined">save</span>
+</button>
+</header>
+<main class="flex-grow pt-24 pb-32 px-gutter max-w-2xl mx-auto w-full space-y-8">
+<!-- Companion Voice Section -->
+<section>
+<div class="flex items-center justify-between mb-4 px-1">
+<h2 class="font-headline-md text-headline-md text-on-surface">Companion Voice</h2>
+<span class="text-primary font-label-md">4 Voices Available</span>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
+<!-- Warm & Gentle (Selected) -->
+<div class="glass-card flex-shrink-0 w-64 p-gutter rounded-xl relative cursor-pointer transition-all border-primary ring-2 ring-primary">
+<div class="flex items-start justify-between mb-4">
+<div class="p-3 rounded-full bg-primary-fixed">
+<span class="material-symbols-outlined text-on-primary-fixed-variant">record_voice_over</span>
+</div>
+<button class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary shadow-lg hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+<h3 class="font-body-md font-semibold text-on-surface">Warm &amp; Gentle</h3>
+<p class="text-label-sm text-on-surface-variant mt-1">Soft, empathetic, and soothing tones.</p>
+<div class="mt-4 flex items-center gap-2">
+<div class="h-1 w-12 bg-primary rounded-full"></div>
+<span class="text-[10px] uppercase tracking-wider text-primary font-bold">Selected</span>
+</div>
+</div>
+<!-- Calm & Balanced -->
+<div class="glass-card flex-shrink-0 w-64 p-gutter rounded-xl hover:bg-surface-container transition-all cursor-pointer">
+<div class="flex items-start justify-between mb-4">
+<div class="p-3 rounded-full bg-surface-container">
+<span class="material-symbols-outlined text-on-surface-variant">keyboard_voice</span>
+</div>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface hover:bg-surface-dim transition-colors">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+</div>
+<h3 class="font-body-md font-semibold text-on-surface">Calm &amp; Balanced</h3>
+<p class="text-label-sm text-on-surface-variant mt-1">Balanced, professional, and clear.</p>
+</div>
+<!-- Bright & Cheerful -->
+<div class="glass-card flex-shrink-0 w-64 p-gutter rounded-xl hover:bg-surface-container transition-all cursor-pointer">
+<div class="flex items-start justify-between mb-4">
+<div class="p-3 rounded-full bg-surface-container">
+<span class="material-symbols-outlined text-on-surface-variant">sentiment_satisfied</span>
+</div>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface hover:bg-surface-dim transition-colors">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+</div>
+<h3 class="font-body-md font-semibold text-on-surface">Bright &amp; Cheerful</h3>
+<p class="text-label-sm text-on-surface-variant mt-1">Energetic, friendly, and upbeat.</p>
+</div>
+<!-- Deep & Resonant -->
+<div class="glass-card flex-shrink-0 w-64 p-gutter rounded-xl hover:bg-surface-container transition-all cursor-pointer">
+<div class="flex items-start justify-between mb-4">
+<div class="p-3 rounded-full bg-surface-container">
+<span class="material-symbols-outlined text-on-surface-variant">settings_input_antenna</span>
+</div>
+<button class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface hover:bg-surface-dim transition-colors">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+</div>
+<h3 class="font-body-md font-semibold text-on-surface">Deep &amp; Resonant</h3>
+<p class="text-label-sm text-on-surface-variant mt-1">Rich, authoritative, and grounded.</p>
+</div></div>
+</section>
+<!-- Speaking Speed Slider -->
+<section class="glass-card p-gutter rounded-xl">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">speed</span>
+<h2 class="font-body-md font-semibold text-on-surface">Speaking Speed</h2>
+</div>
+<span class="text-body-sm text-primary font-bold bg-primary-fixed px-2 py-0.5 rounded-full" id="speed-val">1.0x</span>
+</div>
+<input class="cursor-pointer" max="2.0" min="0.5" oninput="document.getElementById('speed-val').innerText = this.value + 'x'" step="0.1" type="range" value="1.0"/>
+<div class="flex justify-between mt-2 text-label-sm text-outline">
+<span>Slow</span>
+<span>Fast</span>
+</div>
+</section>
+<!-- Toggles Section -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Listening Sensitivity -->
+<div class="glass-card p-gutter rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-tertiary-fixed">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant">hearing</span>
+</div>
+<div>
+<h3 class="font-body-md font-semibold text-on-surface">Hands-free</h3>
+<p class="text-label-sm text-on-surface-variant">Auto-detect speech</p>
+</div>
+</div>
+<button class="w-12 h-6 bg-primary rounded-full relative transition-colors duration-200" onclick="this.classList.toggle('bg-primary'); this.classList.toggle('bg-surface-variant'); this.querySelector('span').classList.toggle('right-1'); this.querySelector('span').classList.toggle('left-1')">
+<span class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full transition-all shadow-sm"></span>
+</button>
+</div>
+<!-- Sound Effects -->
+<div class="glass-card p-gutter rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-tertiary-fixed">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant">graphic_eq</span>
+</div>
+<div>
+<h3 class="font-body-md font-semibold text-on-surface">Sound Effects</h3>
+<p class="text-label-sm text-on-surface-variant">Ambient feedback</p>
+</div>
+</div>
+<button class="w-12 h-6 bg-primary rounded-full relative transition-colors duration-200" onclick="this.classList.toggle('bg-primary'); this.classList.toggle('bg-surface-variant'); this.querySelector('span').classList.toggle('right-1'); this.querySelector('span').classList.toggle('left-1')">
+<span class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full transition-all shadow-sm"></span>
+</button>
+</div>
+</section>
+<!-- Voice Mode Theme (Soul Orb) -->
+<section>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-4">Voice Mode Theme</h2>
+<div class="glass-card p-gutter rounded-xl">
+<div class="flex items-center justify-center py-10 mb-6 relative bg-surface-container-low rounded-lg">
+<div class="w-24 h-24 rounded-full orb-preview" id="orb-preview"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary/30 text-4xl">auto_awesome</span>
+</div>
+</div>
+<div class="grid grid-cols-5 gap-4">
+<button class="aspect-square rounded-full bg-[#075fab] ring-2 ring-primary ring-offset-4 ring-offset-white transition-all scale-110" onclick="updateOrb('#075fab')"></button>
+<button class="aspect-square rounded-full bg-[#a4c9ff] hover:scale-110 transition-transform" onclick="updateOrb('#a4c9ff')"></button>
+<button class="aspect-square rounded-full bg-[#ffb4ab] hover:scale-110 transition-transform" onclick="updateOrb('#ffb4ab')"></button>
+<button class="aspect-square rounded-full bg-[#feb246] hover:scale-110 transition-transform" onclick="updateOrb('#feb246')"></button>
+<button class="aspect-square rounded-full bg-[#3a6a00] hover:scale-110 transition-transform" onclick="updateOrb('#3a6a00')"></button>
+</div>
+<p class="text-center text-label-md text-on-surface-variant mt-6">Select a visual aura for your companion</p>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 bg-surface-container-lowest border-t border-outline-variant z-50">
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">forum</span>
+<span class="font-label-md text-label-sm mt-1">Chat</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings_voice</span>
+<span class="font-label-md text-label-sm mt-1">Voice</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-md text-label-sm mt-1">Memory</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-sm mt-1">Settings</span>
+</button>
+</nav>
+<script>
+        function updateOrb(color) {
+            const orb = document.getElementById('orb-preview');
+            orb.style.setProperty('--orb-color', color);
+            
+            // Remove selection ring from all
+            document.querySelectorAll('.grid button').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-primary', 'ring-offset-4', 'ring-offset-white', 'scale-110');
+            });
+            
+            // Add selection ring to clicked
+            event.currentTarget.classList.add('ring-2', 'ring-primary', 'ring-offset-4', 'ring-offset-white', 'scale-110');
+        }
+    </script>
+</body></html>

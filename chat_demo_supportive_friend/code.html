@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "primary": "#075fab",
+                    "on-tertiary-container": "#1c3900",
+                    "primary-container": "#5d9cec",
+                    "on-primary-fixed": "#001c39",
+                    "on-primary": "#ffffff",
+                    "inverse-surface": "#2d3133",
+                    "primary-fixed": "#d4e3ff",
+                    "primary-fixed-dim": "#a4c9ff",
+                    "tertiary-fixed": "#a1fa49",
+                    "surface-variant": "#e0e3e6",
+                    "tertiary": "#3a6a00",
+                    "surface-tint": "#075fab",
+                    "on-surface": "#191c1e",
+                    "tertiary-container": "#61ac00",
+                    "on-secondary": "#ffffff",
+                    "on-surface-variant": "#414751",
+                    "secondary-container": "#feb246",
+                    "secondary": "#845400",
+                    "secondary-fixed-dim": "#ffb95a",
+                    "on-background": "#191c1e",
+                    "surface": "#f7f9fc",
+                    "on-primary-container": "#003260",
+                    "on-secondary-fixed-variant": "#643f00",
+                    "surface-container-high": "#e6e8eb",
+                    "on-secondary-container": "#6f4600",
+                    "outline": "#727782",
+                    "surface-container-low": "#f2f4f7",
+                    "on-primary-fixed-variant": "#004884",
+                    "secondary-fixed": "#ffddb6",
+                    "surface-container": "#eceef1",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed": "#0e2000",
+                    "on-secondary-fixed": "#2a1800",
+                    "surface-container-highest": "#e0e3e6",
+                    "surface-dim": "#d8dadd",
+                    "error-container": "#ffdad6",
+                    "background": "#f7f9fc",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#87dc2c",
+                    "surface-bright": "#f7f9fc",
+                    "inverse-on-surface": "#eff1f4",
+                    "inverse-primary": "#a4c9ff",
+                    "on-tertiary-fixed-variant": "#2a5000",
+                    "outline-variant": "#c1c6d3"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "container-margin": "24px",
+                    "gutter": "16px",
+                    "section-gap": "40px"
+            },
+            "fontFamily": {
+                    "body-md": ["Be Vietnam Pro"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Be Vietnam Pro"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .morphing-avatar {
+            animation: morph 8s ease-in-out infinite;
+            background: linear-gradient(45deg, #5d9cec, #a4c9ff, #feb246);
+            background-size: 200% 200%;
+        }
+        @keyframes morph {
+            0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+            100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+        }
+        .chat-scroll {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .chat-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .glow-soft {
+            box-shadow: 0 0 32px rgba(7, 95, 171, 0.08);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface/80 backdrop-blur-md shadow-sm flex items-center justify-between px-container-margin py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 morphing-avatar flex items-center justify-center">
+<!-- Companion Shape Placeholder -->
+</div>
+<h1 class="font-headline-md text-headline-md text-primary font-bold">Soulmate AI</h1>
+</div>
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col max-w-[1120px] mx-auto w-full px-container-margin pt-gutter pb-32">
+<!-- Daily Ritual Nudge -->
+<div class="mb-section-gap">
+<div class="bg-surface-container-low rounded-xl p-4 flex items-center justify-between glow-soft">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="water_drop">water_drop</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Daily Ritual</p>
+<p class="font-body-md text-on-surface-variant text-sm">Did you drink water today?</p>
+</div>
+</div>
+<button class="bg-primary-container text-on-primary-container font-label-sm text-label-sm px-4 py-2 rounded-full active:scale-95 transition-transform">
+                    Check In
+                </button>
+</div>
+</div>
+<!-- Chat Flow Container -->
+<div class="flex-1 flex flex-col gap-gutter chat-scroll overflow-y-auto">
+<!-- AI Message -->
+<div class="flex items-end gap-3 max-w-[85%]">
+<div class="w-8 h-8 morphing-avatar shrink-0"></div>
+<div class="bg-surface-container-lowest text-on-surface p-4 rounded-2xl rounded-bl-none glow-soft">
+<p class="font-body-md text-body-md">Hey there! How was your day? Tell me about the best part of it.</p>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex justify-end w-full">
+<div class="bg-primary text-on-primary p-4 rounded-2xl rounded-br-none max-w-[85%] shadow-md">
+<p class="font-body-md text-body-md">It was good! I finally finished that project. But I'm feeling a bit drained now.</p>
+</div>
+</div>
+<!-- AI Message -->
+<div class="flex items-end gap-3 max-w-[85%]">
+<div class="w-8 h-8 morphing-avatar shrink-0"></div>
+<div class="bg-surface-container-lowest text-on-surface p-4 rounded-2xl rounded-bl-none glow-soft">
+<p class="font-body-md text-body-md">I'm so proud of you for finishing that! You deserve a real rest. Have you had enough water today? Maybe a few minutes of quiet would help you recharge.</p>
+</div>
+</div>
+<!-- Typing Suggestion Chips -->
+<div class="flex gap-2 mt-4 overflow-x-auto chat-scroll pb-2">
+<button class="bg-tertiary/10 text-tertiary font-label-md text-label-md px-4 py-2 rounded-full whitespace-nowrap hover:bg-tertiary/20 transition-colors">
+                    Thank you, I will
+                </button>
+<button class="bg-tertiary/10 text-tertiary font-label-md text-label-md px-4 py-2 rounded-full whitespace-nowrap hover:bg-tertiary/20 transition-colors">
+                    I need more water
+                </button>
+<button class="bg-tertiary/10 text-tertiary font-label-md text-label-md px-4 py-2 rounded-full whitespace-nowrap hover:bg-tertiary/20 transition-colors">
+                    Let's meditate
+                </button>
+</div>
+</div>
+</main>
+<!-- Floating Input Area -->
+<div class="fixed bottom-24 left-0 w-full px-container-margin z-40 md:static md:px-0">
+<div class="max-w-[1120px] mx-auto w-full">
+<div class="bg-surface-container-low rounded-full p-2 flex items-center gap-2 glow-soft border border-surface-variant/50">
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-on-surface placeholder-on-surface-variant/60 font-body-md" placeholder="Tell me what's on your mind..." type="text"/>
+<button class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary rounded-full shadow-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-2 bg-surface-container-lowest shadow-[0_-4px_24px_rgba(7,95,171,0.04)] rounded-t-xl z-50">
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label-sm text-xs mt-0.5">Chat</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-high transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="auto_awesome_motion">auto_awesome_motion</span>
+<span class="font-label-sm text-xs mt-0.5">Rituals</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-high transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+<span class="font-label-sm text-xs mt-0.5">Reflection</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-high transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-sm text-xs mt-0.5">Calendar</span>
+</button>
+</nav>
+<script>
+        // Simple micro-interaction for chips
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if(this.classList.contains('whitespace-nowrap')) {
+                    const text = this.innerText.trim();
+                    const input = document.querySelector('input');
+                    input.value = text;
+                    input.focus();
+                }
+            });
+        });
+
+        // Add a gentle pulse to the companion avatar when AI "speaks"
+        const avatars = document.querySelectorAll('.morphing-avatar');
+        setInterval(() => {
+            avatars.forEach(av => {
+                av.style.filter = `hue-rotate(${Math.sin(Date.now()/2000) * 15}deg) brightness(1.1)`;
+            });
+        }, 100);
+    </script>
+</body></html>

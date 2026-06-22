@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Soulmate AI - Email Assistance</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Be+Vietnam+Pro:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#e0e3e6",
+                    "tertiary-container": "#61ac00",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "surface": "#f7f9fc",
+                    "primary": "#075fab",
+                    "inverse-on-surface": "#eff1f4",
+                    "on-primary-container": "#003260",
+                    "secondary": "#845400",
+                    "surface-container-low": "#f2f4f7",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed-variant": "#004884",
+                    "surface-container-highest": "#e0e3e6",
+                    "surface-bright": "#f7f9fc",
+                    "surface-dim": "#d8dadd",
+                    "on-secondary-fixed-variant": "#643f00",
+                    "surface-container-lowest": "#ffffff",
+                    "outline": "#727782",
+                    "primary-fixed-dim": "#a4c9ff",
+                    "inverse-primary": "#a4c9ff",
+                    "secondary-fixed-dim": "#ffb95a",
+                    "outline-variant": "#c1c6d3",
+                    "on-surface": "#191c1e",
+                    "secondary-container": "#feb246",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "surface-tint": "#075fab",
+                    "surface-container-high": "#e6e8eb",
+                    "on-secondary-container": "#6f4600",
+                    "primary-container": "#5d9cec",
+                    "on-tertiary-fixed": "#0e2000",
+                    "surface-container": "#eceef1",
+                    "primary-fixed": "#d4e3ff",
+                    "on-background": "#191c1e",
+                    "on-tertiary-fixed-variant": "#2a5000",
+                    "on-surface-variant": "#414751",
+                    "on-primary-fixed": "#001c39",
+                    "on-secondary-fixed": "#2a1800",
+                    "on-tertiary-container": "#1c3900",
+                    "secondary-fixed": "#ffddb6",
+                    "inverse-surface": "#2d3133",
+                    "tertiary-fixed-dim": "#87dc2c",
+                    "tertiary-fixed": "#a1fa49",
+                    "background": "#f7f9fc",
+                    "tertiary": "#3a6a00",
+                    "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-gap": "40px",
+                    "gutter": "16px",
+                    "unit": "8px",
+                    "container-margin": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-lg": ["Be Vietnam Pro"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "30px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f7f9fc;
+            font-family: 'Be Vietnam Pro', sans-serif;
+            color: #191c1e;
+        }
+        
+        .companion-blob {
+            background: linear-gradient(135deg, #a4c9ff 0%, #5d9cec 100%);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation: morph 8s ease-in-out infinite;
+            filter: blur(1px);
+        }
+
+        @keyframes morph {
+            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            33% { border-radius: 60% 40% 50% 50% / 30% 60% 40% 70%; }
+            66% { border-radius: 50% 60% 30% 60% / 60% 40% 60% 40%; }
+            100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+        }
+
+        .chat-bubble-ai {
+            box-shadow: 0 4px 12px rgba(7, 95, 171, 0.04);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+        }
+
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col h-screen overflow-hidden">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface/80 backdrop-blur-md shadow-sm flex items-center justify-between px-container-margin py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 companion-blob flex items-center justify-center">
+<!-- Data-alt for avatar visualization -->
+<div class="hidden" data-alt="A soft glowing companion avatar designed as a fluid morphing organic shape with ethereal blue and white gradients. The shape is suspended against a clean white background, radiating a sense of warmth, empathy, and intelligence. The lighting is soft and ambient, emphasizing a friendly and supportive digital presence for emotional wellness."></div>
+<span class="material-symbols-outlined text-white text-xl" style="font-variation-settings: 'FILL' 1;">face</span>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary font-bold">Soulmate AI</h1>
+</div>
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</header>
+<!-- Main Content Canvas (Chat) -->
+<main class="flex-1 overflow-y-auto px-container-margin py-6 flex flex-col gap-6 scroll-hide pb-32">
+<!-- Message 1: AI (Email Context) -->
+<div class="flex flex-col items-start max-w-[85%] animate-fade-in">
+<div class="bg-surface-container-lowest chat-bubble-ai p-4 rounded-t-2xl rounded-br-2xl rounded-bl-lg border border-surface-container">
+<div class="mb-3 p-3 bg-surface-container rounded-xl flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="font-label-md text-on-surface truncate">Project Update</p>
+<p class="text-xs text-on-surface-variant">Sarah • 10:24 AM</p>
+</div>
+</div>
+<p class="font-body-md text-on-surface">I noticed you have an unread email from Sarah about the project update. Would you like me to help you draft a warm reply?</p>
+</div>
+<span class="text-[10px] text-outline-variant mt-1 ml-1">10:45 AM</span>
+</div>
+<!-- Message 2: User -->
+<div class="flex flex-col items-end self-end max-w-[85%] animate-fade-in">
+<div class="bg-primary text-on-primary p-4 rounded-t-2xl rounded-bl-2xl rounded-br-lg shadow-lg">
+<p class="font-body-md">Yes please! Tell her I can't make it today but I'll definitely be there tomorrow.</p>
+</div>
+<span class="text-[10px] text-outline-variant mt-1 mr-1">10:46 AM</span>
+</div>
+<!-- Message 3: AI (Drafting) -->
+<div class="flex flex-col items-start max-w-[85%] animate-fade-in">
+<div class="bg-surface-container-lowest chat-bubble-ai p-4 rounded-t-2xl rounded-br-2xl rounded-bl-lg border border-surface-container">
+<p class="font-body-md text-on-surface mb-3">Got it. How does this sound?</p>
+<div class="p-4 bg-primary/5 border-l-4 border-primary rounded-r-xl italic text-on-surface-variant font-body-md">
+                    "Hi Sarah, so sorry I can't make it today. I'm really looking forward to catching up and I'll definitely be there tomorrow to dive in with you!"
+                </div>
+</div>
+<span class="text-[10px] text-outline-variant mt-1 ml-1">10:46 AM</span>
+</div>
+<!-- Message 4: User (Confirmation) -->
+<div class="flex flex-col items-end self-end max-w-[85%] animate-fade-in">
+<div class="bg-primary text-on-primary p-4 rounded-t-2xl rounded-bl-2xl rounded-br-lg shadow-lg">
+<p class="font-body-md">That's perfect. Send it.</p>
+</div>
+<span class="text-[10px] text-outline-variant mt-1 mr-1">10:47 AM</span>
+</div>
+<!-- Message 5: AI (Final Confirmation) -->
+<div class="flex flex-col items-start max-w-[85%] animate-fade-in">
+<div class="bg-surface-container-lowest chat-bubble-ai p-4 rounded-t-2xl rounded-br-2xl rounded-bl-lg border border-surface-container">
+<div class="flex items-center gap-2 text-tertiary font-label-md mb-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    Email Sent
+                </div>
+<p class="font-body-md text-on-surface">Sent! One less thing for you to worry about today. ✨</p>
+</div>
+<span class="text-[10px] text-outline-variant mt-1 ml-1">10:47 AM</span>
+</div>
+</main>
+<!-- Contextual FAB (Only for active flows) -->
+<button class="fixed bottom-28 right-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-2xl" data-icon="add">add</span>
+</button>
+<!-- Chat Input Area (Soft recessed field) -->
+<div class="fixed bottom-[88px] left-0 w-full px-4 py-3 bg-surface/90 backdrop-blur-sm">
+<div class="flex items-center gap-3 bg-surface-container-high rounded-full px-5 py-2">
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-on-surface font-body-md placeholder:text-outline" placeholder="Type your message..." type="text"/>
+<button class="text-primary p-1">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-2 bg-surface-container-lowest shadow-[0_-4px_24px_rgba(7,95,171,0.04)] rounded-t-xl z-50">
+<!-- Chat Tab (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="font-label-sm text-label-sm-mobile">Chat</span>
+</a>
+<!-- Rituals Tab -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-high transition-colors active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome_motion">auto_awesome_motion</span>
+<span class="font-label-sm text-label-sm-mobile">Rituals</span>
+</a>
+<!-- Reflection Tab -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-high transition-colors active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="auto_stories">auto_stories</span>
+<span class="font-label-sm text-label-sm-mobile">Reflection</span>
+</a>
+<!-- Calendar Tab -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-high transition-colors active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-sm text-label-sm-mobile">Calendar</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for the chat bubbles
+        document.querySelectorAll('.animate-fade-in').forEach((el, i) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(10px)';
+            el.style.transition = 'all 0.4s ease-out';
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, i * 300);
+        });
+
+        // Horizontal scroll animation for suggestions (if needed)
+        const chatContainer = document.querySelector('main');
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    </script>
+</body></html>

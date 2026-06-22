@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Voice Mode - Soulmate AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#a1fa49",
+                    "inverse-surface": "#2d3133",
+                    "surface-container-low": "#f2f4f7",
+                    "on-tertiary-fixed": "#0e2000",
+                    "on-secondary-fixed": "#2a1800",
+                    "inverse-on-surface": "#eff1f4",
+                    "surface-bright": "#f7f9fc",
+                    "on-primary-fixed-variant": "#004884",
+                    "tertiary-container": "#61ac00",
+                    "surface-container-high": "#e6e8eb",
+                    "primary": "#075fab",
+                    "surface-container": "#eceef1",
+                    "on-secondary-container": "#6f4600",
+                    "surface-container-highest": "#e0e3e6",
+                    "on-primary-fixed": "#001c39",
+                    "on-tertiary": "#ffffff",
+                    "surface": "#f7f9fc",
+                    "outline": "#727782",
+                    "tertiary-fixed-dim": "#87dc2c",
+                    "on-error": "#ffffff",
+                    "inverse-primary": "#a4c9ff",
+                    "surface-tint": "#075fab",
+                    "primary-fixed-dim": "#a4c9ff",
+                    "on-secondary-fixed-variant": "#643f00",
+                    "on-primary": "#ffffff",
+                    "background": "#f7f9fc",
+                    "surface-variant": "#e0e3e6",
+                    "on-surface-variant": "#414751",
+                    "primary-fixed": "#d4e3ff",
+                    "tertiary": "#3a6a00",
+                    "secondary-fixed-dim": "#ffb95a",
+                    "secondary-container": "#feb246",
+                    "secondary": "#845400",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#003260",
+                    "primary-container": "#5d9cec",
+                    "surface-dim": "#d8dadd",
+                    "on-surface": "#191c1e",
+                    "secondary-fixed": "#ffddb6",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed-variant": "#2a5000",
+                    "on-tertiary-container": "#1c3900",
+                    "error": "#ba1a1a",
+                    "outline-variant": "#c1c6d3",
+                    "on-error-container": "#93000a",
+                    "on-background": "#191c1e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "gutter": "16px",
+                    "section-gap": "40px",
+                    "container-margin": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "body-md": ["Be Vietnam Pro"],
+                    "body-lg": ["Be Vietnam Pro"],
+                    "headline-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["26px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .soul-orb-glow {
+            filter: blur(40px);
+            animation: pulse-glow 6s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.15); opacity: 0.8; }
+        }
+
+        .morphing-orb {
+            animation: morph 8s infinite ease-in-out;
+        }
+
+        @keyframes morph {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+        }
+
+        .waveform-bar {
+            animation: wave-bounce 1.5s infinite ease-in-out;
+        }
+
+        @keyframes wave-bounce {
+            0%, 100% { height: 4px; }
+            50% { height: 16px; }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bg-mesh {
+            background: radial-gradient(circle at 20% 30%, #d4e3ff 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, #ffddb6 0%, transparent 40%),
+                        radial-gradient(circle at 50% 50%, #f7f9fc 0%, #eceef1 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen overflow-hidden flex flex-col items-center justify-between">
+<!-- Background Atmospheric Layer -->
+<div class="fixed inset-0 bg-mesh opacity-60 pointer-events-none -z-10"></div>
+<!-- Top App Bar (Simplified for Voice Mode) -->
+<header class="w-full top-0 sticky bg-surface/40 backdrop-blur-md flex items-center justify-between px-container-margin py-6 z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined text-[20px]" data-icon="waving_hand">waving_hand</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary font-bold">Soulmate AI</h1>
+<p class="font-label-sm text-label-sm-mobile text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" data-icon="spatial_audio_off" style="font-variation-settings: 'FILL' 1;">spatial_audio_off</span>
+                    Hands-free Active
+                </p>
+</div>
+</div>
+<button class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="settings">settings</span>
+</button>
+</header>
+<!-- Main Visual Content -->
+<main class="flex-1 w-full flex flex-col items-center justify-center px-container-margin relative overflow-hidden">
+<!-- Animated Soul Orb -->
+<div class="relative w-72 h-72 flex items-center justify-center mb-12">
+<!-- Glow layers -->
+<div class="absolute w-full h-full bg-primary-container rounded-full soul-orb-glow"></div>
+<div class="absolute w-4/5 h-4/5 bg-secondary-container rounded-full soul-orb-glow" style="animation-delay: -2s;"></div>
+<!-- Core Morphing Orb -->
+<div class="relative w-48 h-48 bg-gradient-to-br from-primary via-primary-container to-secondary-container morphing-orb shadow-lg flex items-center justify-center">
+<div class="w-40 h-40 bg-white/20 backdrop-blur-sm morphing-orb" style="animation-duration: 10s;"></div>
+</div>
+</div>
+<!-- Dynamic Transcription -->
+<div class="max-w-md text-center px-4 fade-in-up">
+<p class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface leading-snug font-medium">
+                "I'm listening. Tell me more about that walk in the park..."
+            </p>
+<p class="mt-4 font-body-md text-on-surface-variant opacity-60">
+                AI is thinking and listening
+            </p>
+</div>
+</main>
+<!-- Bottom Controls & Visualization -->
+<footer class="w-full px-container-margin pb-12 pt-8 flex flex-col items-center gap-8 relative z-50">
+<!-- Waveform Visualization -->
+<div class="flex items-end justify-center gap-1.5 h-8">
+<div class="waveform-bar w-1.5 bg-primary rounded-full" style="animation-delay: 0.1s; height: 12px;"></div>
+<div class="waveform-bar w-1.5 bg-primary-container rounded-full" style="animation-delay: 0.3s; height: 18px;"></div>
+<div class="waveform-bar w-1.5 bg-primary rounded-full" style="animation-delay: 0.2s; height: 24px;"></div>
+<div class="waveform-bar w-1.5 bg-secondary-container rounded-full" style="animation-delay: 0.5s; height: 14px;"></div>
+<div class="waveform-bar w-1.5 bg-primary rounded-full" style="animation-delay: 0.4s; height: 20px;"></div>
+<div class="waveform-bar w-1.5 bg-primary-container rounded-full" style="animation-delay: 0.6s; height: 16px;"></div>
+<div class="waveform-bar w-1.5 bg-secondary-container rounded-full" style="animation-delay: 0.2s; height: 10px;"></div>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center gap-6">
+<button class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[28px]" data-icon="mic_off">mic_off</span>
+</button>
+<button class="px-10 py-5 rounded-full bg-error-container text-on-error-container font-headline-md flex items-center gap-3 shadow-lg active:scale-95 transition-transform hover:opacity-90">
+<span class="material-symbols-outlined" data-icon="call_end" style="font-variation-settings: 'FILL' 1;">call_end</span>
+                End Session
+            </button>
+<button class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[28px]" data-icon="volume_up">volume_up</span>
+</button>
+</div>
+<!-- Mode Indicator -->
+<div class="flex items-center gap-2 px-4 py-2 bg-surface-container rounded-full">
+<div class="w-2 h-2 bg-tertiary rounded-full animate-pulse"></div>
+<span class="font-label-md text-label-md text-on-surface-variant">Walk &amp; Talk Mode</span>
+</div>
+</footer>
+<!-- Interactive Layer Script -->
+<script>
+        // Simulating voice responsiveness on the soul orb
+        const orb = document.querySelector('.morphing-orb');
+        const waveformBars = document.querySelectorAll('.waveform-bar');
+
+        function simulateVoiceActivity() {
+            // Randomly scale the orb to simulate 'hearing' input
+            const scale = 1 + (Math.random() * 0.1);
+            orb.style.transform = `scale(${scale})`;
+            
+            // Randomize waveform heights more aggressively
+            waveformBars.forEach(bar => {
+                const height = Math.floor(Math.random() * 20) + 6;
+                bar.style.height = `${height}px`;
+            });
+
+            setTimeout(simulateVoiceActivity, 200);
+        }
+
+        // Start the subtle simulation
+        simulateVoiceActivity();
+
+        // Prevent standard long-press behaviors for a focused experience
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+</body></html>
