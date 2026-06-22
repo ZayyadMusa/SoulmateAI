@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'core/theme/app_theme.dart';
 import 'core/local_storage/local_storage_service.dart';
+import 'features/daily_reflection/presentation/screens/daily_reflection_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,11 +23,7 @@ class HolisticLifeCompanionApp extends StatelessWidget {
     return MaterialApp(
       title: 'Holistic Life Companion',
       theme: AppTheme.lightTheme,
-      home: const Scaffold(
-        body: Center(
-          child: Text('Holistic Life Companion Initialized'),
-        ),
-      ),
+      home: const DailyReflectionScreen(),
     );
   }
 }
