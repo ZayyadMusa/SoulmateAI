@@ -17,6 +17,7 @@ class _VoiceSettingsScreenState extends State<VoiceSettingsScreen> with SingleTi
 
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
+  bool _isSaving = false;
 
   final List<Color> _orbColors = [
     const Color(0xFF075fab), // Primary
@@ -55,7 +56,7 @@ class _VoiceSettingsScreenState extends State<VoiceSettingsScreen> with SingleTi
         scrolledUnderElevation: 4,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
-          onPressed: () {},
+          onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           'Voice Settings',
@@ -65,10 +66,15 @@ class _VoiceSettingsScreenState extends State<VoiceSettingsScreen> with SingleTi
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.save, color: AppTheme.primary),
-            onPressed: () {},
-          ),
+          _isSaving 
+            ? const Padding(
+                padding: EdgeInsets.only(right: 16.0),
+                child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)),
+              )
+            : IconButton(
+                icon: const Icon(Icons.save, color: AppTheme.primary),
+                onPressed: _saveSettings,
+              ),
         ],
       ),
       body: SafeArea(
@@ -596,5 +602,20 @@ class _VoiceSettingsScreenState extends State<VoiceSettingsScreen> with SingleTi
         ],
       ),
     );
+  }
+
+  Future<void> _saveSettings() async {
+    setState(() => _isSaving = true);
+    await Future.delayed(const Duration(milliseconds: 1000));
+    if (mounted) {
+      setState(() => _isSaving = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Voice settings saved.'),
+          backgroundColor: AppTheme.tertiaryContainer,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 }

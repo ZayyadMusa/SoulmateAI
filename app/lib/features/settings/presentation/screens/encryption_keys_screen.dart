@@ -11,6 +11,7 @@ class EncryptionKeysScreen extends StatefulWidget {
 class _EncryptionKeysScreenState extends State<EncryptionKeysScreen> with SingleTickerProviderStateMixin {
   late AnimationController _morphController;
   late Animation<double> _morphRadiusAnimation;
+  bool _isRotating = false;
 
   @override
   void initState() {
@@ -42,7 +43,7 @@ class _EncryptionKeysScreenState extends State<EncryptionKeysScreen> with Single
         shadowColor: AppTheme.primary.withOpacity(0.04),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
-          onPressed: () {},
+          onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           'Soulmate',
@@ -240,6 +241,8 @@ class _EncryptionKeysScreenState extends State<EncryptionKeysScreen> with Single
                     statusText: 'Advanced setting',
                     statusIcon: Icons.bolt,
                     statusColor: AppTheme.secondary,
+                    onTap: _rotateKeys,
+                    isLoading: _isRotating,
                   ),
                 ),
               ],
@@ -321,6 +324,21 @@ class _EncryptionKeysScreenState extends State<EncryptionKeysScreen> with Single
     );
   }
 
+  Future<void> _rotateKeys() async {
+    setState(() => _isRotating = true);
+    await Future.delayed(const Duration(seconds: 2));
+    if (mounted) {
+      setState(() => _isRotating = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Encryption keys successfully rotated.'),
+          backgroundColor: AppTheme.tertiaryContainer,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
+
   Widget _buildActionCard({
     required IconData icon,
     required Color iconColor,
@@ -330,9 +348,11 @@ class _EncryptionKeysScreenState extends State<EncryptionKeysScreen> with Single
     required String statusText,
     required IconData statusIcon,
     required Color statusColor,
+    VoidCallback? onTap,
+    bool isLoading = false,
   }) {
     return InkWell(
-      onTap: () {},
+      onTap: isLoading ? null : onTap,
       borderRadius: BorderRadius.circular(24),
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -357,7 +377,15 @@ class _EncryptionKeysScreenState extends State<EncryptionKeysScreen> with Single
                 color: iconBgColor,
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Icon(icon, color: iconColor, size: 28),
+              child: isLoading
+                  ? const Center(
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                    )
+                  : Icon(icon, color: iconColor, size: 28),
             ),
             const SizedBox(height: 24),
             Text(

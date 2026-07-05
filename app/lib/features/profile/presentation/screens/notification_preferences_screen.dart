@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../../settings/presentation/controllers/settings_controller.dart';
 
-class NotificationPreferencesScreen extends StatefulWidget {
+class NotificationPreferencesScreen extends ConsumerStatefulWidget {
   const NotificationPreferencesScreen({super.key});
 
   @override
-  State<NotificationPreferencesScreen> createState() => _NotificationPreferencesScreenState();
+  ConsumerState<NotificationPreferencesScreen> createState() => _NotificationPreferencesScreenState();
 }
 
-class _NotificationPreferencesScreenState extends State<NotificationPreferencesScreen> with SingleTickerProviderStateMixin {
-  bool _dailyReflections = true;
-  bool _morningRituals = true;
-  bool _voiceMessages = false;
-  bool _weeklySummaries = true;
-  bool _gentleChimes = true;
-
+class _NotificationPreferencesScreenState extends ConsumerState<NotificationPreferencesScreen> with SingleTickerProviderStateMixin {
   bool _isSaving = false;
   bool _isSaved = false;
 
@@ -64,8 +60,15 @@ class _NotificationPreferencesScreenState extends State<NotificationPreferencesS
     });
   }
 
+  void _updateSetting(SettingsState currentState, SettingsState newState) {
+    ref.read(settingsControllerProvider.notifier).updateSettings(newState);
+    _handleUpdate();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final settingsState = ref.watch(settingsControllerProvider);
+
     return Scaffold(
       backgroundColor: AppTheme.surface,
       appBar: AppBar(
@@ -194,14 +197,14 @@ class _NotificationPreferencesScreenState extends State<NotificationPreferencesS
                       _buildToggleItem(
                         title: 'Daily Reflections',
                         description: 'Gentle nudges to pause and check in with your thoughts throughout the day.',
-                        value: _dailyReflections,
-                        onChanged: (val) => setState(() => _dailyReflections = val),
+                        value: settingsState.dailyReflections,
+                        onChanged: (val) => _updateSetting(settingsState, settingsState.copyWith(dailyReflections: val)),
                       ),
                       _buildToggleItem(
                         title: 'Morning Rituals',
                         description: 'Start your day together with a personalized greeting and intention setting.',
-                        value: _morningRituals,
-                        onChanged: (val) => setState(() => _morningRituals = val),
+                        value: settingsState.morningRituals,
+                        onChanged: (val) => _updateSetting(settingsState, settingsState.copyWith(morningRituals: val)),
                       ),
 
                       const SizedBox(height: 32),
@@ -209,14 +212,14 @@ class _NotificationPreferencesScreenState extends State<NotificationPreferencesS
                       _buildToggleItem(
                         title: 'Voice Messages',
                         description: 'Get notified when a new voice snippet or guided meditation is ready for you.',
-                        value: _voiceMessages,
-                        onChanged: (val) => setState(() => _voiceMessages = val),
+                        value: settingsState.voiceMessages,
+                        onChanged: (val) => _updateSetting(settingsState, settingsState.copyWith(voiceMessages: val)),
                       ),
                       _buildToggleItem(
                         title: 'Weekly Summaries',
                         description: 'A bird\'s-eye view of your emotional trends and shared growth every Sunday.',
-                        value: _weeklySummaries,
-                        onChanged: (val) => setState(() => _weeklySummaries = val),
+                        value: settingsState.weeklySummaries,
+                        onChanged: (val) => _updateSetting(settingsState, settingsState.copyWith(weeklySummaries: val)),
                       ),
 
                       const SizedBox(height: 32),
@@ -225,8 +228,8 @@ class _NotificationPreferencesScreenState extends State<NotificationPreferencesS
                         title: 'Gentle Chimes',
                         description: 'Soft audio cues and haptic feedback for a mindful alerting experience.',
                         icon: Icons.notifications_active_outlined,
-                        value: _gentleChimes,
-                        onChanged: (val) => setState(() => _gentleChimes = val),
+                        value: settingsState.gentleChimes,
+                        onChanged: (val) => _updateSetting(settingsState, settingsState.copyWith(gentleChimes: val)),
                       ),
                     ],
                   ),

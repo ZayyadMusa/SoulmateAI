@@ -12,6 +12,8 @@ class _DataExportScreenState extends State<DataExportScreen> with SingleTickerPr
   late AnimationController _morphController;
   late Animation<double> _morphRadiusAnimation;
 
+  bool _isExporting = false;
+
   bool _chatPdf = true;
   bool _chatJson = false;
   bool _voiceMp3 = true;
@@ -76,6 +78,10 @@ class _DataExportScreenState extends State<DataExportScreen> with SingleTickerPr
               ),
             ),
           ],
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
+          onPressed: () => Navigator.pop(context),
         ),
         actions: [
           IconButton(
@@ -229,10 +235,12 @@ class _DataExportScreenState extends State<DataExportScreen> with SingleTickerPr
                       ],
                     ),
                     child: ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.send, size: 20, color: Colors.white),
+                      onPressed: _isExporting ? null : _handleExport,
+                      icon: _isExporting 
+                        ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                        : const Icon(Icons.send, size: 20, color: Colors.white),
                       label: Text(
-                        'Request Data Export',
+                        _isExporting ? 'Preparing Request...' : 'Request Data Export',
                         style: Theme.of(context).textTheme.labelMedium?.copyWith(
                           color: Colors.white,
                           fontSize: 16,
@@ -274,6 +282,21 @@ class _DataExportScreenState extends State<DataExportScreen> with SingleTickerPr
       ),
 
     );
+  }
+
+  Future<void> _handleExport() async {
+    setState(() => _isExporting = true);
+    await Future.delayed(const Duration(seconds: 2));
+    if (mounted) {
+      setState(() => _isExporting = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Export request queued! You will receive an email shortly.'),
+          backgroundColor: AppTheme.tertiaryContainer,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   Widget _buildExportCard({

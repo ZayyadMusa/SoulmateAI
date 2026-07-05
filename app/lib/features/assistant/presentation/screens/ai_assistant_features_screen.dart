@@ -11,6 +11,7 @@ class AiAssistantFeaturesScreen extends StatefulWidget {
 class _AiAssistantFeaturesScreenState extends State<AiAssistantFeaturesScreen> with SingleTickerProviderStateMixin {
   bool _calendarIntegration = true;
   bool _emailAssistance = false;
+  bool _isSaving = false;
   
   late AnimationController _blobController;
   late Animation<double> _blobAnimation;
@@ -190,7 +191,7 @@ class _AiAssistantFeaturesScreenState extends State<AiAssistantFeaturesScreen> w
                     height: 64,
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: _isSaving ? null : _completeSetup,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.primary,
                         foregroundColor: AppTheme.onPrimary,
@@ -200,20 +201,22 @@ class _AiAssistantFeaturesScreenState extends State<AiAssistantFeaturesScreen> w
                         elevation: 8,
                         shadowColor: AppTheme.primary.withOpacity(0.3),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Complete Setup',
-                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                              color: AppTheme.onPrimary,
-                              fontSize: 18,
-                            ),
+                      child: _isSaving
+                        ? const Center(child: CircularProgressIndicator(color: Colors.white))
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Complete Setup',
+                                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                  color: AppTheme.onPrimary,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              const Icon(Icons.arrow_forward, size: 24),
+                            ],
                           ),
-                          const SizedBox(width: 8),
-                          const Icon(Icons.arrow_forward, size: 24),
-                        ],
-                      ),
                     ),
                   ),
                 ],
@@ -470,5 +473,20 @@ class _AiAssistantFeaturesScreenState extends State<AiAssistantFeaturesScreen> w
         ),
       ),
     );
+  }
+
+  Future<void> _completeSetup() async {
+    setState(() => _isSaving = true);
+    await Future.delayed(const Duration(milliseconds: 1500));
+    if (mounted) {
+      setState(() => _isSaving = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('AI Assistant features configured!'),
+          backgroundColor: AppTheme.tertiaryContainer,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 }

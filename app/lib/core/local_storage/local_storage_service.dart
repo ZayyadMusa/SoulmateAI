@@ -23,5 +23,7 @@ class LocalStorageService {
     await Hive.openBox<ChatMessage>('chat_messages');
     await Hive.openBox<VoiceProfile>('voice_profiles');
     await Hive.openBox<Dream>('dreams');
+    await Hive.openBox('settings');
+    await Hive.openBox('profile');
   }
 }

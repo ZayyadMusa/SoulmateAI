@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../controllers/profile_controller.dart';
 
-class ProfileSetupScreen extends StatefulWidget {
+class ProfileSetupScreen extends ConsumerStatefulWidget {
   const ProfileSetupScreen({super.key});
 
   @override
-  State<ProfileSetupScreen> createState() => _ProfileSetupScreenState();
+  ConsumerState<ProfileSetupScreen> createState() => _ProfileSetupScreenState();
 }
 
-class _ProfileSetupScreenState extends State<ProfileSetupScreen> with SingleTickerProviderStateMixin {
+class _ProfileSetupScreenState extends ConsumerState<ProfileSetupScreen> with SingleTickerProviderStateMixin {
   late AnimationController _blobController;
   late Animation<double> _blobAnimation;
   bool _isInputFocused = false;
   final FocusNode _focusNode = FocusNode();
+  final _nameController = TextEditingController();
 
   @override
   void initState() {
@@ -37,6 +41,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> with SingleTick
   void dispose() {
     _blobController.dispose();
     _focusNode.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 
@@ -200,6 +205,7 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> with SingleTick
                                 borderRadius: BorderRadius.circular(9999),
                               ),
                               child: TextField(
+                                controller: _nameController,
                                 focusNode: _focusNode,
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: AppTheme.onSurface,
@@ -309,7 +315,10 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> with SingleTick
                   color: Colors.transparent,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(9999),
-                    onTap: () {},
+                    onTap: () {
+                      ref.read(profileControllerProvider.notifier).updateName(_nameController.text);
+                      context.go('/reflection');
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

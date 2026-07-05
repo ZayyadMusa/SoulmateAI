@@ -15,6 +15,7 @@ import '../../features/settings/presentation/screens/encryption_keys_screen.dart
 import '../../features/subscription/presentation/screens/premium_subscription_screen.dart';
 import '../../features/rituals/presentation/screens/rituals_memories_screen.dart';
 import '../../features/assistant/presentation/screens/ai_assistant_features_screen.dart';
+import '../../features/profile/presentation/screens/profile_setup_screen.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -23,6 +24,10 @@ final appRouter = GoRouter(
   initialLocation: '/reflection',
   routes: [
     // Standalone routes (no bottom nav)
+    GoRoute(
+      path: '/profile-setup',
+      builder: (context, state) => const ProfileSetupScreen(),
+    ),
     GoRoute(
       path: '/email-assistance',
       builder: (context, state) => const EmailAssistanceChatScreen(),
