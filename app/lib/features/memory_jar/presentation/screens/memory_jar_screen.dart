@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../daily_reflection/presentation/controllers/reflection_controller.dart';
+import '../controllers/memory_jar_controller.dart';
 
 class MemoryJarScreen extends ConsumerStatefulWidget {
   const MemoryJarScreen({super.key});
@@ -38,6 +39,7 @@ class _MemoryJarScreenState extends ConsumerState<MemoryJarScreen> with SingleTi
   @override
   Widget build(BuildContext context) {
     final reflectionsState = ref.watch(reflectionControllerProvider);
+    final memoryJarState = ref.watch(memoryJarControllerProvider);
 
     return Scaffold(
       backgroundColor: AppTheme.background,
@@ -235,30 +237,28 @@ class _MemoryJarScreenState extends ConsumerState<MemoryJarScreen> with SingleTi
             const SizedBox(height: 16),
             SizedBox(
               height: 200,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  _buildGratitudeCard(
-                    color: AppTheme.secondaryFixed.withOpacity(0.5),
-                    textColor: AppTheme.onSecondaryContainer,
-                    content: '"Today I\'m grateful for the sunlight hitting my desk and the fresh tea."',
-                    date: 'Saved 2h ago',
-                  ),
-                  const SizedBox(width: 16),
-                  _buildGratitudeCard(
-                    color: AppTheme.tertiaryFixed.withOpacity(0.5),
-                    textColor: AppTheme.onTertiaryContainer,
-                    content: '"So thankful for our conversation about purpose. I feel lighter now."',
-                    date: 'Saved yesterday',
-                  ),
-                  const SizedBox(width: 16),
-                  _buildGratitudeCard(
-                    color: AppTheme.primaryFixed.withOpacity(0.5),
-                    textColor: AppTheme.onPrimaryContainer,
-                    content: '"Grateful for the ability to step back and breathe when things get busy."',
-                    date: 'May 14',
-                  ),
-                ],
+              child: memoryJarState.when(
+                data: (memories) {
+                  if (memories.isEmpty) {
+                    return const Center(child: Text('No gratitude notes yet.'));
+                  }
+                  return ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: memories.map((memory) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 16),
+                        child: _buildGratitudeCard(
+                          color: AppTheme.primaryFixed.withOpacity(0.5),
+                          textColor: AppTheme.onPrimaryContainer,
+                          content: memory.description,
+                          date: DateFormat.yMMMd().format(memory.date),
+                        ),
+                      );
+                    }).toList(),
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, st) => Center(child: Text('Error: $e')),
               ),
             ),
 

@@ -25,5 +25,6 @@ class LocalStorageService {
     await Hive.openBox<Dream>('dreams');
     await Hive.openBox('settings');
     await Hive.openBox('profile');
+    await Hive.openBox('rituals');
   }
 }

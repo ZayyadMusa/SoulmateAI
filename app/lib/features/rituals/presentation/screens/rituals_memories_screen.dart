@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/theme/app_theme.dart';
+import '../controllers/rituals_controller.dart';
 
-class RitualsMemoriesScreen extends StatefulWidget {
+class RitualsMemoriesScreen extends ConsumerStatefulWidget {
   const RitualsMemoriesScreen({super.key});
 
   @override
-  State<RitualsMemoriesScreen> createState() => _RitualsMemoriesScreenState();
+  ConsumerState<RitualsMemoriesScreen> createState() => _RitualsMemoriesScreenState();
 }
 
-class _RitualsMemoriesScreenState extends State<RitualsMemoriesScreen> with SingleTickerProviderStateMixin {
+class _RitualsMemoriesScreenState extends ConsumerState<RitualsMemoriesScreen> with SingleTickerProviderStateMixin {
   late AnimationController _blobController;
   late Animation<double> _blobAnimation;
-
-  bool _drinkWaterDone = true;
-  bool _dailyStretchDone = false;
 
   @override
   void initState() {
@@ -36,6 +35,8 @@ class _RitualsMemoriesScreenState extends State<RitualsMemoriesScreen> with Sing
 
   @override
   Widget build(BuildContext context) {
+    final ritualsState = ref.watch(ritualsControllerProvider);
+
     // In Flutter, using a Scaffold with a Row for md:col-span-8 and md:col-span-4 is handled via LayoutBuilder or a SingleChildScrollView.
     // For simplicity on a mobile screen view, we'll stack them vertically. The design says "grid-cols-1 md:grid-cols-12",
     // so on standard mobile (grid-cols-1) they just stack.
@@ -165,11 +166,9 @@ class _RitualsMemoriesScreenState extends State<RitualsMemoriesScreen> with Sing
                     iconBgColor: AppTheme.primaryFixed,
                     title: 'Drink water',
                     subtitle: 'Start with 500ml of hydration',
-                    isDone: _drinkWaterDone,
+                    isDone: ritualsState.drinkWaterDone,
                     onTap: () {
-                      setState(() {
-                        _drinkWaterDone = !_drinkWaterDone;
-                      });
+                      ref.read(ritualsControllerProvider.notifier).toggleDrinkWater();
                     },
                   ),
                 ),
@@ -181,11 +180,9 @@ class _RitualsMemoriesScreenState extends State<RitualsMemoriesScreen> with Sing
                     iconBgColor: AppTheme.secondaryFixed,
                     title: 'Daily Stretch',
                     subtitle: '5 minutes of soft movement',
-                    isDone: _dailyStretchDone,
+                    isDone: ritualsState.dailyStretchDone,
                     onTap: () {
-                      setState(() {
-                        _dailyStretchDone = !_dailyStretchDone;
-                      });
+                      ref.read(ritualsControllerProvider.notifier).toggleDailyStretch();
                     },
                   ),
                 ),
