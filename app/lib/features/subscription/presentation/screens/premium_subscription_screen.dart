@@ -11,6 +11,7 @@ class PremiumSubscriptionScreen extends StatefulWidget {
 class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen> with SingleTickerProviderStateMixin {
   late AnimationController _morphController;
   late Animation<double> _morphRadiusAnimation;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -76,11 +77,23 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen> w
           ],
         ),
         actions: [
-          IconButton(
-            padding: const EdgeInsets.only(right: 16),
-            icon: const Icon(Icons.settings, color: AppTheme.onSurfaceVariant),
-            onPressed: () {},
-          ),
+          if (_isLoading)
+            const Padding(
+              padding: EdgeInsets.only(right: 16.0),
+              child: Center(
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              ),
+            )
+          else
+            IconButton(
+              padding: const EdgeInsets.only(right: 16),
+              icon: const Icon(Icons.settings, color: AppTheme.onSurfaceVariant),
+              onPressed: () {},
+            ),
         ],
       ),
       body: SafeArea(
@@ -211,7 +224,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen> w
                       ],
                     ),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: _isLoading ? null : _manageSubscription,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
@@ -231,7 +244,7 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen> w
                   ),
                   const SizedBox(height: 24),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: _isLoading ? null : _restorePurchases,
                     child: Text(
                       'Restore Purchases',
                       style: Theme.of(context).textTheme.labelMedium?.copyWith(
@@ -260,12 +273,14 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen> w
             _buildPlanCard(
               title: 'Monthly Access',
               price: '\$9.99/mo',
+              onTap: _isLoading ? null : () => _purchasePlan('Monthly Access'),
             ),
             const SizedBox(height: 24),
             _buildPlanCard(
               title: 'Yearly Journey',
               price: '\$89.99/yr',
               badge: 'Save 25%',
+              onTap: _isLoading ? null : () => _purchasePlan('Yearly Journey'),
             ),
           ],
         ),
@@ -353,15 +368,18 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen> w
     required String title,
     required String price,
     String? badge,
+    VoidCallback? onTap,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.4),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppTheme.surfaceContainer),
-      ),
-      child: Row(
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.4),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: AppTheme.surfaceContainer),
+        ),
+        child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
@@ -441,5 +459,32 @@ class _PremiumSubscriptionScreenState extends State<PremiumSubscriptionScreen> w
         ),
       ),
     );
+  }
+
+  Future<void> _manageSubscription() async {
+    _simulateLoading('Redirecting to app store...');
+  }
+
+  Future<void> _restorePurchases() async {
+    _simulateLoading('Restoring purchases...');
+  }
+
+  Future<void> _purchasePlan(String planName) async {
+    _simulateLoading('Processing purchase for $planName...');
+  }
+
+  Future<void> _simulateLoading(String message) async {
+    setState(() => _isLoading = true);
+    await Future.delayed(const Duration(milliseconds: 1500));
+    if (mounted) {
+      setState(() => _isLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: AppTheme.tertiaryContainer,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 }

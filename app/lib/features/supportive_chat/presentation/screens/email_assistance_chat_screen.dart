@@ -12,6 +12,40 @@ class _EmailAssistanceChatScreenState extends State<EmailAssistanceChatScreen> w
   late AnimationController _morphController;
   late Animation<double> _morphRadiusAnimation;
   final ScrollController _scrollController = ScrollController();
+  final TextEditingController _textController = TextEditingController();
+  
+  bool _isTyping = false;
+  final List<Map<String, dynamic>> _messages = [
+    {
+      'isUser': false,
+      'time': '10:45 AM',
+      'isEmailContext': true,
+      'text': 'I noticed you have an unread email from Sarah about the project update. Would you like me to help you draft a warm reply?',
+    },
+    {
+      'isUser': true,
+      'time': '10:46 AM',
+      'text': "Yes please! Tell her I can't make it today but I'll definitely be there tomorrow.",
+    },
+    {
+      'isUser': false,
+      'time': '10:46 AM',
+      'isDraft': true,
+      'text': 'Got it. How does this sound?',
+      'draftText': '"Hi Sarah, so sorry I can\'t make it today. I\'m really looking forward to catching up and I\'ll definitely be there tomorrow to dive in with you!"',
+    },
+    {
+      'isUser': true,
+      'time': '10:47 AM',
+      'text': "That's perfect. Send it.",
+    },
+    {
+      'isUser': false,
+      'time': '10:47 AM',
+      'isSentConfirm': true,
+      'text': 'Sent! One less thing for you to worry about today. ✨',
+    },
+  ];
 
   @override
   void initState() {
@@ -30,6 +64,7 @@ class _EmailAssistanceChatScreenState extends State<EmailAssistanceChatScreen> w
   void dispose() {
     _morphController.dispose();
     _scrollController.dispose();
+    _textController.dispose();
     super.dispose();
   }
 
@@ -88,146 +123,175 @@ class _EmailAssistanceChatScreenState extends State<EmailAssistanceChatScreen> w
       body: Stack(
         children: [
           // Main Content Canvas (Chat)
-          ListView(
+          ListView.builder(
             controller: _scrollController,
             padding: const EdgeInsets.fromLTRB(24, 24, 24, 180),
-            children: [
-              // Message 1: AI (Email Context)
-              _buildAiMessage(
-                time: '10:45 AM',
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: AppTheme.surfaceContainer,
-                        borderRadius: BorderRadius.circular(12),
+            itemCount: _messages.length + (_isTyping ? 1 : 0),
+            itemBuilder: (context, index) {
+              if (index == _messages.length) {
+                return _buildAiMessage(
+                  time: 'Just now',
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
                       ),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: AppTheme.primary.withOpacity(0.1),
-                              shape: BoxShape.circle,
+                      SizedBox(width: 12),
+                      Text('Soulmate is typing...'),
+                    ],
+                  ),
+                );
+              }
+
+              final msg = _messages[index];
+              if (msg['isUser'] == true) {
+                return _buildUserMessage(
+                  text: msg['text'],
+                  time: msg['time'],
+                );
+              }
+
+              if (msg['isEmailContext'] == true) {
+                return _buildAiMessage(
+                  time: msg['time'],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: AppTheme.surfaceContainer,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: AppTheme.primary.withOpacity(0.1),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(Icons.mail, color: AppTheme.primary, size: 20),
                             ),
-                            child: const Icon(Icons.mail, color: AppTheme.primary, size: 20),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Project Update',
+                                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                      color: AppTheme.onSurface,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  Text(
+                                    'Sarah • 10:24 AM',
+                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: AppTheme.onSurfaceVariant,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        msg['text'],
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppTheme.onSurface,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              if (msg['isDraft'] == true) {
+                return _buildAiMessage(
+                  time: msg['time'],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        msg['text'],
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppTheme.onSurface,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primary.withOpacity(0.05),
+                          border: const Border(left: BorderSide(color: AppTheme.primary, width: 4)),
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(12),
+                            bottomRight: Radius.circular(12),
                           ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Project Update',
-                                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                                    color: AppTheme.onSurface,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                Text(
-                                  'Sarah • 10:24 AM',
-                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: AppTheme.onSurfaceVariant,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
+                        ),
+                        child: Text(
+                          msg['draftText'],
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: AppTheme.onSurfaceVariant,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              if (msg['isSentConfirm'] == true) {
+                return _buildAiMessage(
+                  time: msg['time'],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Icons.check_circle, color: AppTheme.tertiary, size: 14),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Email Sent',
+                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              color: AppTheme.tertiary,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                    Text(
-                      'I noticed you have an unread email from Sarah about the project update. Would you like me to help you draft a warm reply?',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.onSurface,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              // Message 2: User
-              _buildUserMessage(
-                text: "Yes please! Tell her I can't make it today but I'll definitely be there tomorrow.",
-                time: '10:46 AM',
-              ),
-
-              // Message 3: AI (Drafting)
-              _buildAiMessage(
-                time: '10:46 AM',
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Got it. How does this sound?',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.onSurface,
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primary.withOpacity(0.05),
-                        border: const Border(left: BorderSide(color: AppTheme.primary, width: 4)),
-                        borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(12),
-                          bottomRight: Radius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        '"Hi Sarah, so sorry I can\'t make it today. I\'m really looking forward to catching up and I\'ll definitely be there tomorrow to dive in with you!"',
+                      const SizedBox(height: 8),
+                      Text(
+                        msg['text'],
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppTheme.onSurfaceVariant,
-                          fontStyle: FontStyle.italic,
+                          color: AppTheme.onSurface,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                    ],
+                  ),
+                );
+              }
 
-              // Message 4: User (Confirmation)
-              _buildUserMessage(
-                text: "That's perfect. Send it.",
-                time: '10:47 AM',
-              ),
-
-              // Message 5: AI (Final Confirmation)
-              _buildAiMessage(
-                time: '10:47 AM',
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(Icons.check_circle, color: AppTheme.tertiary, size: 14),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Email Sent',
-                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: AppTheme.tertiary,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Sent! One less thing for you to worry about today. ✨',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppTheme.onSurface,
-                      ),
-                    ),
-                  ],
+              // Normal text
+              return _buildAiMessage(
+                time: msg['time'],
+                child: Text(
+                  msg['text'],
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: AppTheme.onSurface,
+                  ),
                 ),
-              ),
-            ],
+              );
+            },
           ),
 
           // Contextual FAB
@@ -264,6 +328,8 @@ class _EmailAssistanceChatScreenState extends State<EmailAssistanceChatScreen> w
                   children: [
                     Expanded(
                       child: TextField(
+                        controller: _textController,
+                        onSubmitted: (_) => _sendMessage(),
                         decoration: InputDecoration(
                           hintText: 'Type your message...',
                           hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -280,7 +346,7 @@ class _EmailAssistanceChatScreenState extends State<EmailAssistanceChatScreen> w
                     ),
                     IconButton(
                       icon: const Icon(Icons.send, color: AppTheme.primary),
-                      onPressed: () {},
+                      onPressed: _sendMessage,
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
                     ),
@@ -441,5 +507,47 @@ class _EmailAssistanceChatScreenState extends State<EmailAssistanceChatScreen> w
         ),
       ),
     );
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
+  Future<void> _sendMessage() async {
+    final text = _textController.text.trim();
+    if (text.isEmpty) return;
+
+    setState(() {
+      _messages.add({
+        'isUser': true,
+        'time': 'Just now',
+        'text': text,
+      });
+      _textController.clear();
+      _isTyping = true;
+    });
+    _scrollToBottom();
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (mounted) {
+      setState(() {
+        _isTyping = false;
+        _messages.add({
+          'isUser': false,
+          'time': 'Just now',
+          'text': "I'm always here for you. Is there anything else you'd like to talk about?",
+        });
+      });
+      _scrollToBottom();
+    }
   }
 }
